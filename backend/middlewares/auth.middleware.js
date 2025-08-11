@@ -1,4 +1,7 @@
 const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+
+const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports.validateRegister = (req, res, next) => {
   const { email, password, name } = req.body;
@@ -33,7 +36,7 @@ module.exports.requireAuth = async (req, res, next) => {
   const token = header.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, process.env, JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
     const user = await User.findById(decoded.id).select("-password");
 
     if (!user) {
@@ -44,7 +47,7 @@ module.exports.requireAuth = async (req, res, next) => {
 
     req.user = user;
   } catch (error) {
-    console.error("requireAuth error", err);
+    console.error("requireAuth error", error);
     return res.status(401).json({ message: "Invalid or expired token" });
   }
 
