@@ -25,10 +25,12 @@ app.use(cookieParser());
 const authRoutes = require("./routes/auth.route.js");
 const venueRoutes = require("./routes/venue.route.js");
 const quoteRoutes = require("./routes/quote.route.js");
+const bookingRoutes = require("./routes/booking.routes.js");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/venues", venueRoutes);
 app.use("/api", quoteRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server is running");

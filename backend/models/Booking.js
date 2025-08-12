@@ -1,86 +1,45 @@
+// backend/models/Booking.js  (very simple)
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const bookingSchema = new Schema({
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
+const bookingSchema = new Schema(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    }, // who booked
+    venueId: {
+      type: Schema.Types.ObjectId,
+      ref: "Venue",
+      required: true,
+    }, // which venue
+    guests: {
+      type: Number,
+      default: 0,
+    }, // guest count
+    start: {
+      type: Date,
+      required: true,
+    }, // event start (UTC)
+    end: {
+      type: Date,
+      required: true,
+    }, // event end (UTC)
+    status: {
+      type: String,
+      enum: ["hold", "confirmed", "cancelled"],
+      default: "hold",
+    },
+    amount: {
+      type: Number,
+      default: 0,
+    }, // estimated or final price
   },
-  venueId: {
-    type: Schema.Types.ObjectId,
-    ref: "Venue",
-    required: true,
-  },
-  catererId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
+  { timestamps: true }
+);
 
-  //booking details
+// index to speed up availability checks
+bookingSchema.index({ venueId: 1, start: 1, end: 1 });
 
-  guests: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  packageName: {
-    type: String,
-    default: null,
-  },
-
-  hours: {
-    type: Number,
-    default: 1,
-  },
-
-  // time window for the event (useful for precise conflicts)
-  start: {
-    type: Date,
-    required: true,
-  },
-  end: {
-    tpye: Date,
-    required: true,
-  },
-
-  // financials
-  totalAmount: {
-    type: Number,
-    default: 0,
-  }, // estimated or final amount
-  depositAmount: {
-    type: Number,
-    default: 0,
-  }, // how much was paid up-front
-
-  // status:
-  // - 'hold' : temporary reservation (not paid/confirmed). has holdExpiresAt
-  // - 'confirmed' : completed booking (paid or admin-confirmed)
-  // - 'cancelled' : cancelled by user or owner
-  // - 'expired' : hold expired and was released
-  status: {
-    type: String,
-    enum: ["hold", "confirmed", "cancelled", "expired"],
-    default: "hold",
-  },
-
-  // holds only: when the hold auto-expires (useful for background cleanup)
-  holdExpiresAt: {
-    type: Date,
-    default: null,
-  },
-
-  // optional payment/gateway reference for confirmed bookings
-  paymentRef: {
-    type: String,
-    default: "",
-  },
-
-  // small audit fields
-  metadata: {
-    type: Schema.Types.Mixed,
-    default: {},
-  },
-});
+module.exports = mongoose.model("Booking", bookingSchema);
