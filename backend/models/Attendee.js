@@ -18,6 +18,10 @@ const attendeeSchema = new Schema({
     type: String,
     required: true,
   },
+
+  city: {
+    type: String,
+  },
 });
 
 const attendeeModel = mongoose.model("Attendee", attendeeSchema);

@@ -6,13 +6,13 @@ const connectToDB = require("./db/db.config.js");
 
 const app = express();
 
-//test route
-app.get("/", (req, res) => {
-  res.send(`Good`);
-});
-
 connectToDB();
 
 app.use(express.json());
+
+//routes
+const attendeeRoutes = require("./routes/attendee.routes.js");
+
+app.use("/attendee", attendeeRoutes);
 
 module.exports = app;
