@@ -90,3 +90,8 @@ module.exports.login = async (req, res) => {
 module.exports.getAttendeeProfile = async (req, res, next) => {
   res.status(200).json(req.attendee);
 };
+
+module.exports.logout = (req, res, next) => {
+  res.clearCookie("attendee_token");
+  res.status(200).json({ message: "Logout Successfully" });
+};

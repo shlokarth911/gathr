@@ -15,7 +15,9 @@ app.use(cookieParser());
 
 //routes
 const attendeeRoutes = require("./routes/attendee.routes.js");
+const ownerRoutes = require("./routes/owner.routes.js");
 
 app.use("/attendee", attendeeRoutes);
+app.use("/owner", ownerRoutes);
 
 module.exports = app;
