@@ -17,6 +17,7 @@ const attendeeSchema = new Schema({
   password: {
     type: String,
     required: true,
+    select: false,
   },
 
   city: {

@@ -86,3 +86,7 @@ module.exports.login = async (req, res) => {
       .json({ message: "Server error", error: error.message });
   }
 };
+
+module.exports.getAttendeeProfile = async (req, res, next) => {
+  res.status(200).json(req.attendee);
+};
