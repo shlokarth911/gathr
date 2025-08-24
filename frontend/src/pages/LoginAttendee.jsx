@@ -1,15 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 
-const RegisterAttendee = () => {
-  const [name, setName] = useState("");
+const LoginAttendee = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [city, setCity] = useState("");
 
-  // refs for animation
+  // animation refs
   const rootRef = useRef(null);
   const headerRef = useRef(null);
   const panelRef = useRef(null);
@@ -17,6 +15,7 @@ const RegisterAttendee = () => {
   const submitRef = useRef(null);
   const arrowRef = useRef(null);
 
+  // prefers-reduced-motion support
   const prefersReducedMotion =
     typeof window !== "undefined" &&
     window.matchMedia &&
@@ -28,6 +27,7 @@ const RegisterAttendee = () => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
+      // header in
       tl.from(headerRef.current, {
         y: -8,
         opacity: 0,
@@ -35,6 +35,7 @@ const RegisterAttendee = () => {
         ease: "power2.out",
       });
 
+      // panel slide up
       tl.from(
         panelRef.current,
         {
@@ -46,6 +47,7 @@ const RegisterAttendee = () => {
         "-=0.15"
       );
 
+      // stagger inputs
       tl.from(
         inputsRef.current,
         {
@@ -58,7 +60,7 @@ const RegisterAttendee = () => {
         "-=0.35"
       );
 
-      // gentle pulse on submit
+      // pulsing shadow on submit button
       gsap.to(submitRef.current, {
         boxShadow: "0 10px 30px rgba(29,185,84,0.12)",
         duration: 1.4,
@@ -71,7 +73,7 @@ const RegisterAttendee = () => {
     return () => ctx.revert();
   }, [prefersReducedMotion]);
 
-  // arrow micro-hover rotate
+  // micro hover/focus rotation for arrow
   useEffect(() => {
     if (prefersReducedMotion) return;
     const arrowEl = arrowRef.current;
@@ -108,21 +110,12 @@ const RegisterAttendee = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     const attendeeData = {
-      name: name,
-      email: email,
-      password: password,
-      city: city,
+      email,
+      password,
     };
-
     console.log(attendeeData);
-    // TODO: submit to API
-    // optional: success animation (morph button -> checkmark)
+    // TODO: call your API, show success animation, etc.
   };
-
-  const cities = [
-    { name: "Ranchi", value: "Ranchi" },
-    { name: "Delhi", value: "Delhi" },
-  ];
 
   return (
     <div ref={rootRef} className="bg-neutral-900 h-screen text-white">
@@ -136,39 +129,29 @@ const RegisterAttendee = () => {
           </div>
         </Link>
 
-        <Link to={"/login-attendee"}>
-          <h2 className="underline">Login</h2>
+        <Link to={"/register-attendee"}>
+          <h2 className="underline">Register</h2>
         </Link>
       </div>
 
       <div className="fixed bottom-0 left-0 right-0">
         <div className="px-5 py-6">
           <h1 ref={headerRef} className="text-3xl">
-            Register as an <br /> Attendee / Host
+            Login as an <br /> Attendee / Host
           </h1>
 
-          <p className="pt-2 text-neutral-300">Book, host or visit events</p>
+          <p className="pt-2 text-neutral-300">Welcome Back!</p>
         </div>
 
         <div
           ref={panelRef}
-          className="bg-neutral-800 px-5 pt-9 pb-7 rounded-t-4xl"
+          className="bg-neutral-800 px-5 pt-2 pb-7 rounded-t-4xl"
           style={{ willChange: "transform, opacity" }}
         >
           <form onSubmit={submitHandler}>
-            <h2 className="text-xl ml-4 text-neutral-300">Name</h2>
-            <input
-              ref={(el) => (inputsRef.current[0] = el)}
-              type="text"
-              placeholder="Enter your name"
-              className="bg-neutral-700 text-lg px-5 py-4 mt-2 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-[#1DB954]/40 transition-shadow"
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-            />
-
             <h2 className="text-xl mt-6 ml-4 text-neutral-300">Email</h2>
             <input
-              ref={(el) => (inputsRef.current[1] = el)}
+              ref={(el) => (inputsRef.current[0] = el)}
               type="email"
               placeholder="Enter your email"
               className="bg-neutral-700 text-lg px-5 py-4 mt-2 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-[#1DB954]/40 transition-shadow"
@@ -178,35 +161,18 @@ const RegisterAttendee = () => {
 
             <h2 className="text-xl mt-6 ml-4 text-neutral-300">Password</h2>
             <input
-              ref={(el) => (inputsRef.current[2] = el)}
+              ref={(el) => (inputsRef.current[1] = el)}
               type="password"
-              placeholder="Enter a strong password"
+              placeholder="Enter your password"
               className="bg-neutral-700 text-lg px-5 py-4 mt-2 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-[#1DB954]/40 transition-shadow"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
 
-            <h2 className="text-xl mt-6 ml-4 text-neutral-300">
-              City (Optional)
-            </h2>
-            <select
-              ref={(el) => (inputsRef.current[3] = el)}
-              className="bg-neutral-700 text-lg px-5 py-4 mt-2 w-full rounded-full appearance-none focus:outline-none focus:ring-2 focus:ring-[#1DB954]/40 transition-shadow"
-              onChange={(e) => setCity(e.target.value)}
-              value={city}
-            >
-              <option value="">Select city (optional)</option>
-              {cities.map((c, idx) => (
-                <option key={idx} value={c.value}>
-                  {c.name}
-                </option>
-              ))}
-            </select>
-
             <button
               ref={submitRef}
               type="submit"
-              className="w-full mt-9 text-2xl text-black py-3 rounded-full transform-gpu"
+              className="w-full mt-9 text-2xl text-black py-3 font-semibold rounded-full transform-gpu"
               style={{
                 background: "linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%)",
                 willChange: "box-shadow, transform",
@@ -249,8 +215,8 @@ const RegisterAttendee = () => {
           </form>
 
           <p className="text-neutral-300 mt-5 text-center">
-            To Register as Owner click{" "}
-            <Link to="/register-owner">
+            To Login as Owner click{" "}
+            <Link to="/login-owner">
               <span className="underline">here</span>
             </Link>
           </p>
@@ -260,4 +226,4 @@ const RegisterAttendee = () => {
   );
 };
 
-export default RegisterAttendee;
+export default LoginAttendee;
