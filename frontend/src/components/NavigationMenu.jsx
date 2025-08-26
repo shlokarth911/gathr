@@ -14,7 +14,6 @@ const NavigationMenu = ({
   const navRef = useRef(null);
   const pillRef = useRef(null);
   const [pillState, setPillState] = useState({ left: 0, width: 0, opacity: 0 });
-
   useEffect(() => {
     const updatePill = () => {
       if (!navRef.current) return;
@@ -22,11 +21,19 @@ const NavigationMenu = ({
         `[data-key="${activeKey}"]`
       );
       if (activeElement) {
-        setPillState({
+        const newState = {
           width: activeElement.offsetWidth,
           left: activeElement.offsetLeft,
           opacity: 1,
-        });
+        };
+        // Only update if values changed
+        setPillState((prevState) =>
+          prevState.width !== newState.width ||
+          prevState.left !== newState.left ||
+          prevState.opacity !== newState.opacity
+            ? newState
+            : prevState
+        );
       }
     };
 
@@ -35,7 +42,6 @@ const NavigationMenu = ({
 
     return () => window.removeEventListener("resize", updatePill);
   }, [activeKey, items]);
-
   // GSAP animation for pill
   useEffect(() => {
     if (pillRef.current) {
