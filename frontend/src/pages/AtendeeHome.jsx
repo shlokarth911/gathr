@@ -1,13 +1,28 @@
 import React from "react";
 import NavigationMenu from "../components/NavigationMenu";
 import {
+  ArrowRight,
+  Beer,
+  Brush,
   Camera,
+  Gem,
+  Guitar,
   Home,
+  MicVocal,
+  Music2,
   Newspaper,
   Search,
   Settings,
   UserRound,
+  Wand,
 } from "lucide-react";
+import { Link } from "react-router-dom";
+import AttendeeHomeHeader from "../components/AttendeeHomeHeader";
+import AttendeeGreetings from "../components/AttendeeGreetings";
+import CategoriesSection from "../components/CategoriesSection";
+import TopVenues from "../components/TopVenues";
+import TopCaterers from "../components/TopCaterers";
+import AdditionalServicesSection from "../components/AdditionalServicesSection";
 
 const AtendeeHome = () => {
   const items = [
@@ -19,69 +34,113 @@ const AtendeeHome = () => {
 
   const categories = [
     {
-      name: "Luxury",
-      img: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      name: "Marrige",
+      icon: Gem,
+    },
+
+    {
+      name: "Food and Drink",
+      icon: Beer,
+    },
+
+    {
+      name: "Musical",
+      icon: Music2,
     },
   ];
 
-  //add mock data
+  const topPickedVenues = [
+    {
+      name: "Mount View",
+      address: "Ranchi",
+      image:
+        "https://images.unsplash.com/photo-1677129663241-5be1f17fe6fe?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      price: "1000",
+    },
+    {
+      name: "Mount View",
+      address: "Ranchi",
+      image:
+        "https://images.unsplash.com/photo-1677129663241-5be1f17fe6fe?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      price: "1000",
+    },
+    {
+      name: "Mount View",
+      address: "Ranchi",
+      image:
+        "https://images.unsplash.com/photo-1677129663241-5be1f17fe6fe?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      price: "1000",
+    },
+  ];
+
+  const topCaterers = [
+    {
+      name: "Ramu Catrer",
+      image:
+        "https://plus.unsplash.com/premium_photo-1687697861242-03e99059e833?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      avgRating: 4.5,
+      price: 1200,
+    },
+    {
+      name: "Ramu Catrer",
+      image:
+        "https://plus.unsplash.com/premium_photo-1687697861242-03e99059e833?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      avgRating: 4.5,
+      price: 1200,
+    },
+    {
+      name: "Ramu Catrer",
+      image:
+        "https://plus.unsplash.com/premium_photo-1687697861242-03e99059e833?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      avgRating: 4.5,
+      price: 1200,
+    },
+  ];
+
+  const topServices = [
+    {
+      name: "Live Music",
+      icon: Guitar,
+    },
+    {
+      name: "Magic Show",
+      icon: Wand,
+    },
+    {
+      name: "Tatoo Artist",
+      icon: Brush,
+    },
+    {
+      name: "Anchor",
+      icon: MicVocal,
+      price: 1200,
+    },
+  ];
 
   return (
-    <main className="bg-neutral-900 h-screen text-white">
-      <div className="p-6 flex items-center justify-between">
-        <div className="flex gap-3 items-center">
-          <div className="bg-white p-2 rounded-full">
-            <UserRound color="black" size={20} />
-          </div>
-          <h3 className="text-base font-semibold">Hi, Alex</h3>
-        </div>
-        {/* <div></div> Add notifications pannel */}
-      </div>
+    <main className="bg-neutral-900 min-h-screen text-white">
+      {/* Header */}
+      <AttendeeHomeHeader />
 
-      <div className="p-6 pt-7">
-        <p className="text-2xl font-bold">
-          Your next unforgettable <br /> event starts here.
-        </p>
+      {/* Greetings and search bar */}
+      <AttendeeGreetings />
 
-        <form action="">
-          <div className="mt-7  relative">
-            <input
-              type="text"
-              className="bg-neutral-100 w-full py-3 px-5 rounded-2xl text-lg text-black placeholder:text-neutral-500 shadow-[0px_2px_8px_0px_rgba(0,_0,_0,_0.08)]"
-              placeholder="Search for your venue"
-            />
-            <button
-              type="submit"
-              className="absolute top-[50%] right-0 bg-white p-2 transform- translate-y-[-50%] translate-x-[-30%] rounded-full shadow-[0px_10px_20px_0px_rgba(0,_0,_0,_0.15)]"
-            >
-              <Search color="black" size={20} />
-            </button>
-          </div>
-        </form>
-      </div>
+      {/* Categories section */}
+      <CategoriesSection categories={categories} />
 
-      <div className="p-7 pt-3">
-        <h2 className="text-lg font-semibold ">Categories</h2>
+      {/* Top Picked Venues */}
+      <TopVenues topPickedVenues={topPickedVenues} />
 
-        <div className="py-2 flex w-full overflow-x-scroll gap-4">
-          {categories.map((category, idx) => {
-            return (
-              <div
-                key={idx}
-                className="flex flex-nowrap items-center gap-3 px-3 py-1 pl-1 font-semibold rounded-2xl bg-neutral-600  flex-shrink-0 h-16"
-              >
-                <img
-                  src={category.img}
-                  alt=""
-                  className="h-12 rounded-xl w-16 object-cover"
-                />
-                <p className="inline-block">{category.name}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
+      {/* Caterers */}
+      <TopCaterers topCaterers={topCaterers} />
 
+      {/* Additional Services */}
+      <AdditionalServicesSection topServices={topServices} />
+
+      {/* For temporary use */}
+      <div className="h-[170px] w-full"></div>
+
+      {/* Navbar */}
       <div className="w-[100%] fixed flex items-center justify-center bottom-[3%] ">
         <div className="w-[80%] flex items-center justify-center">
           <NavigationMenu items={items} />
@@ -90,7 +149,5 @@ const AtendeeHome = () => {
     </main>
   );
 };
-
-// ..make the navmenu fleible by inputiing coustom data
 
 export default AtendeeHome;
