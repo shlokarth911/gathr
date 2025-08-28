@@ -123,7 +123,7 @@ export default function WelcomeSplitHero({
         >
           <div className="space-y-3">
             <Link
-              to={"/register-attendee"}
+              to={"/attendee/register"}
               ref={primaryBtn}
               onClick={() => onChoose("attendee")}
               className="w-full flex items-center justify-center  mt-9 text-lg text-black py-3 font-semibold rounded-full"
@@ -136,7 +136,7 @@ export default function WelcomeSplitHero({
             </Link>
 
             <Link
-              to={"/register-owner"}
+              to={"/owner/register"}
               ref={secondaryBtn}
               onClick={() => onChoose("owner")}
               className="w-full flex items-center justify-center  rounded-full py-4 text-lg font-medium bg-transparent border border-neutral-600 text-white hover:bg-white/3 transition-colors focus:outline-none"

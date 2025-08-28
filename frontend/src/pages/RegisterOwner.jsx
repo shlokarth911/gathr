@@ -126,7 +126,7 @@ const RegisterOwner = () => {
           </div>
         </Link>
 
-        <Link to={"/login-owner"}>
+        <Link to={"/owner/login"}>
           <h2 className="underline">Login</h2>
         </Link>
       </div>

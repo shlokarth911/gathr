@@ -3,12 +3,12 @@ import React, { useRef, useEffect, useState } from "react";
 
 const NavigationMenu = ({
   items = [
-    { key: "home", label: "Home" },
-    { key: "about", label: "About" },
-    { key: "services", label: "Services" },
-    { key: "contact", label: "Contact" },
+    { key: "", label: "" },
+    { key: "", label: "" },
+    { key: "", label: "" },
+    { key: "", label: "" },
   ],
-  activeKey = "home",
+  activeKey = "",
   onChange = () => {},
 }) => {
   const navRef = useRef(null);

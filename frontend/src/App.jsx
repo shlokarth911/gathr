@@ -6,19 +6,27 @@ import LoginAttendee from "./pages/LoginAttendee";
 import OnBoard from "./pages/OnBoard";
 import LoginOwner from "./pages/LoginOwner";
 import AtendeeHome from "./pages/AtendeeHome";
+import AttendeeProfile from "./pages/AttendeeProfile";
+import AttendeeLayout from "./components/AttendeeLayout";
 
 const App = () => {
   return (
     <>
       <Routes>
         <Route path="/onboard" element={<OnBoard />} />
-        <Route path="/register-attendee" element={<RegisterAttendee />} />
-        <Route path="/login-attendee" element={<LoginAttendee />} />
-        <Route path="/register-owner" element={<RegisterOwner />} />
-        <Route path="/login-owner" element={<LoginOwner />} />
+        <Route path="/attendee/register" element={<RegisterAttendee />} />
+        <Route path="/attendee/login" element={<LoginAttendee />} />
+        <Route path="/owner/register" element={<RegisterOwner />} />
+        <Route path="/owner/login" element={<LoginOwner />} />
 
         {/* Secure paths */}
-        <Route path="/home-attendee" element={<AtendeeHome />} />
+
+        <Route path="/attendee" element={<AttendeeLayout />}>
+          <Route path="home" element={<AtendeeHome />} />
+          <Route path="profile" element={<AttendeeProfile />} />
+          {/* Add other attendee pages here */}
+        </Route>
+        {/* Other routes */}
       </Routes>
     </>
   );

@@ -16,20 +16,26 @@ import {
   UserRound,
   Wand,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import AttendeeHomeHeader from "../components/AttendeeHomeHeader";
 import AttendeeGreetings from "../components/AttendeeGreetings";
 import CategoriesSection from "../components/CategoriesSection";
 import TopVenues from "../components/TopVenues";
 import TopCaterers from "../components/TopCaterers";
 import AdditionalServicesSection from "../components/AdditionalServicesSection";
+import ReviewsSection from "../components/ReviewsSection";
+import HowItWorks from "../components/HowItWorks";
+import FAQSection from "../components/FAQSection";
 
 const AtendeeHome = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const items = [
-    { key: "home", label: "Home" },
-    { key: "about", label: "Venues" },
-    { key: "services", label: "Services" },
-    { key: "contact", label: "Contact" },
+    { key: "home", label: "Home", path: "/attendee/home" },
+    { key: "bookings", label: "Bookings", path: "/onboard" },
+    { key: "favorites", label: "Favorites" },
+    { key: "profile", label: "Profile", path: "/attendee/profile" },
   ];
 
   const categories = [
@@ -117,6 +123,26 @@ const AtendeeHome = () => {
     },
   ];
 
+  const faqs = [
+    {
+      question: "How do I book a caterer?",
+      answer:
+        "Simply browse top caterers, choose one, and confirm your booking in a few clicks.",
+    },
+    {
+      question: "Are the vendors verified?",
+      answer:
+        "Yes, all vendors are verified for quality and reliability before listing.",
+    },
+    {
+      question: "What payment methods do you accept?",
+      answer: "We support UPI, debit/credit cards, and net banking.",
+    },
+  ];
+
+  const currentItem =
+    items.find((item) => item.path === location.pathname) || items[0];
+
   return (
     <main className="bg-neutral-900 min-h-screen text-white">
       {/* Header */}
@@ -137,13 +163,29 @@ const AtendeeHome = () => {
       {/* Additional Services */}
       <AdditionalServicesSection topServices={topServices} />
 
+      {/* Reviews */}
+      <ReviewsSection />
+
+      {/* How it works */}
+      <HowItWorks />
+
+      {/* FaQs */}
+      <FAQSection faqs={faqs} />
+
       {/* For temporary use */}
       <div className="h-[170px] w-full"></div>
 
       {/* Navbar */}
       <div className="w-[100%] fixed flex items-center justify-center bottom-[3%] ">
         <div className="w-[80%] flex items-center justify-center">
-          <NavigationMenu items={items} />
+          <NavigationMenu
+            activeKey={currentItem.key}
+            onChange={(key) => {
+              const selected = items.find((i) => i.key === key);
+              if (selected) navigate(selected.path);
+            }}
+            items={items}
+          />
         </div>
       </div>
     </main>

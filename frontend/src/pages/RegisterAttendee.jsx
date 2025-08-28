@@ -136,7 +136,7 @@ const RegisterAttendee = () => {
           </div>
         </Link>
 
-        <Link to={"/login-attendee"}>
+        <Link to={"/attendee/login"}>
           <h2 className="underline">Login</h2>
         </Link>
       </div>
@@ -250,7 +250,7 @@ const RegisterAttendee = () => {
 
           <p className="text-neutral-300 mt-5 text-center">
             To Register as Owner click{" "}
-            <Link to="/register-owner">
+            <Link to="/owner/register">
               <span className="underline">here</span>
             </Link>
           </p>
