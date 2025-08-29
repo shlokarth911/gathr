@@ -8,10 +8,11 @@ import LoginOwner from "./pages/LoginOwner";
 import AtendeeHome from "./pages/AtendeeHome";
 import AttendeeProfile from "./pages/AttendeeProfile";
 import AttendeeLayout from "./components/AttendeeLayout";
+import { AttendeeDataProvider } from "./contexts/AttendeeContext"; // <-- import provider
 
 const App = () => {
   return (
-    <>
+    <AttendeeDataProvider>
       <Routes>
         <Route path="/onboard" element={<OnBoard />} />
         <Route path="/attendee/register" element={<RegisterAttendee />} />
@@ -20,7 +21,6 @@ const App = () => {
         <Route path="/owner/login" element={<LoginOwner />} />
 
         {/* Secure paths */}
-
         <Route path="/attendee" element={<AttendeeLayout />}>
           <Route path="home" element={<AtendeeHome />} />
           <Route path="profile" element={<AttendeeProfile />} />
@@ -28,7 +28,7 @@ const App = () => {
         </Route>
         {/* Other routes */}
       </Routes>
-    </>
+    </AttendeeDataProvider>
   );
 };
 

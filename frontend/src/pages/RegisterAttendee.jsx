@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import gsap from "gsap";
+import axios from "axios";
+import { AttendeeDataContext } from "../contexts/AttendeeContext";
 
 const RegisterAttendee = () => {
   const [name, setName] = useState("");
@@ -16,6 +18,9 @@ const RegisterAttendee = () => {
   const inputsRef = useRef([]);
   const submitRef = useRef(null);
   const arrowRef = useRef(null);
+
+  const { attendee, setAttendee } = useContext(AttendeeDataContext);
+  const navigate = useNavigate();
 
   const prefersReducedMotion =
     typeof window !== "undefined" &&
@@ -105,20 +110,38 @@ const RegisterAttendee = () => {
     };
   }, [prefersReducedMotion]);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     const attendeeData = {
-      name: name,
-      email: email,
-      password: password,
-      city: city,
+      name,
+      email,
+      password,
+      city,
     };
 
-    console.log(attendeeData);
-    // TODO: submit to API
-    // optional: success animation (morph button -> checkmark)
-  };
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/attendee/register`,
+        attendeeData // <-- send data here
+      );
 
+      if (response.status === 201) {
+        const data = response.data;
+        setAttendee(data.attendee || data.user); // depends on backend response
+        localStorage.setItem("attendee_token", data.token);
+        navigate("/attendee/home");
+      } else {
+        alert(response.data.message || "Registration failed");
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "Server error. Please try again.");
+    }
+
+    setEmail("");
+    setCity("");
+    setName("");
+    setPassword("");
+  };
   const cities = [
     { name: "Ranchi", value: "Ranchi" },
     { name: "Delhi", value: "Delhi" },

@@ -1,12 +1,16 @@
 import { ArrowLeft } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import gsap from "gsap";
+import axios from "axios";
+import { AttendeeDataContext } from "../contexts/AttendeeContext";
 
 const LoginAttendee = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { setAttendee } = useContext(AttendeeDataContext);
+  const navigate = useNavigate();
   // animation refs
   const rootRef = useRef(null);
   const headerRef = useRef(null);
@@ -68,7 +72,7 @@ const LoginAttendee = () => {
         yoyo: true,
         ease: "sine.inOut",
       });
-    }, rootRef);
+    }, [rootRef]);
 
     return () => ctx.revert();
   }, [prefersReducedMotion]);
@@ -107,14 +111,31 @@ const LoginAttendee = () => {
     };
   }, [prefersReducedMotion]);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     const attendeeData = {
       email,
       password,
     };
-    console.log(attendeeData);
-    // TODO: call your API, show success animation, etc.
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/attendee/login`,
+        attendeeData
+      );
+
+      if (res.status === 200) {
+        const data = res.data;
+        setAttendee(data.user);
+        localStorage.setItem("attendee_token", data.token);
+        navigate("/attendee/home");
+      }
+    } catch (error) {
+      // Optionally handle error here
+      console.error(error);
+    }
+
+    setEmail("");
+    setPassword("");
   };
 
   return (

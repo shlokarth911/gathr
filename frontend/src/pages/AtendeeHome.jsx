@@ -1,22 +1,7 @@
 import React from "react";
 import NavigationMenu from "../components/NavigationMenu";
-import {
-  ArrowRight,
-  Beer,
-  Brush,
-  Camera,
-  Gem,
-  Guitar,
-  Home,
-  MicVocal,
-  Music2,
-  Newspaper,
-  Search,
-  Settings,
-  UserRound,
-  Wand,
-} from "lucide-react";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Beer, Brush, Gem, Guitar, MicVocal, Music2, Wand } from "lucide-react";
+
 import AttendeeHomeHeader from "../components/AttendeeHomeHeader";
 import AttendeeGreetings from "../components/AttendeeGreetings";
 import CategoriesSection from "../components/CategoriesSection";
@@ -28,16 +13,6 @@ import HowItWorks from "../components/HowItWorks";
 import FAQSection from "../components/FAQSection";
 
 const AtendeeHome = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const items = [
-    { key: "home", label: "Home", path: "/attendee/home" },
-    { key: "bookings", label: "Bookings", path: "/onboard" },
-    { key: "favorites", label: "Favorites" },
-    { key: "profile", label: "Profile", path: "/attendee/profile" },
-  ];
-
   const categories = [
     {
       name: "Marrige",
@@ -140,9 +115,6 @@ const AtendeeHome = () => {
     },
   ];
 
-  const currentItem =
-    items.find((item) => item.path === location.pathname) || items[0];
-
   return (
     <main className="bg-neutral-900 min-h-screen text-white">
       {/* Header */}
@@ -174,20 +146,6 @@ const AtendeeHome = () => {
 
       {/* For temporary use */}
       <div className="h-[170px] w-full"></div>
-
-      {/* Navbar */}
-      <div className="w-[100%] fixed flex items-center justify-center bottom-[3%] ">
-        <div className="w-[80%] flex items-center justify-center">
-          <NavigationMenu
-            activeKey={currentItem.key}
-            onChange={(key) => {
-              const selected = items.find((i) => i.key === key);
-              if (selected) navigate(selected.path);
-            }}
-            items={items}
-          />
-        </div>
-      </div>
     </main>
   );
 };
