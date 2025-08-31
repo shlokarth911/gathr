@@ -20,6 +20,10 @@ const attendeeSchema = new Schema({
     select: false,
   },
 
+  phoneNumber: {
+    type: Number,
+  },
+
   city: {
     type: String,
   },

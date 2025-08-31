@@ -4,12 +4,11 @@ import NavigationMenu from "../components/NavigationMenu";
 
 const items = [
   { key: "home", label: "Home", path: "/attendee/home" },
-  { key: "bookings", label: "Bookings", path: "/onboard" },
+  { key: "bookings", label: "Bookings", path: "/attendee/bookings" },
   { key: "favorites", label: "Favorites" },
   { key: "profile", label: "Profile", path: "/attendee/profile" },
 ];
-
-const AttendeeLayout = () => {
+const OwnerLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const currentItem =
@@ -37,4 +36,4 @@ const AttendeeLayout = () => {
   );
 };
 
-export default AttendeeLayout;
+export default OwnerLayout;

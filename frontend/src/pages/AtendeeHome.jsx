@@ -1,18 +1,23 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import NavigationMenu from "../components/NavigationMenu";
 import { Beer, Brush, Gem, Guitar, MicVocal, Music2, Wand } from "lucide-react";
 
-import AttendeeHomeHeader from "../components/AttendeeHomeHeader";
-import AttendeeGreetings from "../components/AttendeeGreetings";
-import CategoriesSection from "../components/CategoriesSection";
-import TopVenues from "../components/TopVenues";
-import TopCaterers from "../components/TopCaterers";
-import AdditionalServicesSection from "../components/AdditionalServicesSection";
-import ReviewsSection from "../components/ReviewsSection";
-import HowItWorks from "../components/HowItWorks";
-import FAQSection from "../components/FAQSection";
+import AttendeeHomeHeader from "../components/attendee_home/AttendeeHomeHeader";
+import AttendeeGreetings from "../components/attendee_home/AttendeeGreetings";
+import CategoriesSection from "../components/attendee_home/CategoriesSection";
+import TopVenues from "../components/attendee_home/TopVenues";
+import TopCaterers from "../components/attendee_home/TopCaterers";
+import AdditionalServicesSection from "../components/attendee_home/AdditionalServicesSection";
+import ReviewsSection from "../components/attendee_home/ReviewsSection";
+import HowItWorks from "../components/attendee_home/HowItWorks";
+import FAQSection from "../components/attendee_home/FAQSection";
+import { AttendeeDataContext } from "../contexts/AttendeeContext";
 
 const AtendeeHome = () => {
+  const { attendee, setAttendee } = useContext(AttendeeDataContext);
+
+  const [user, setUser] = useState(attendee);
+
   const categories = [
     {
       name: "Marrige",
@@ -118,7 +123,7 @@ const AtendeeHome = () => {
   return (
     <main className="bg-neutral-900 min-h-screen text-white">
       {/* Header */}
-      <AttendeeHomeHeader />
+      <AttendeeHomeHeader user={user} />
 
       {/* Greetings and search bar */}
       <AttendeeGreetings />

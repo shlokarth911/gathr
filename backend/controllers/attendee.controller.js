@@ -95,3 +95,17 @@ module.exports.logout = (req, res, next) => {
   res.clearCookie("attendee_token");
   res.status(200).json({ message: "Logout Successfully" });
 };
+
+module.exports.updateAttendeeProfile = async (req, res) => {
+  try {
+    // Use req.attendee._id instead of req.user.id
+    const updated = await Attendee.findByIdAndUpdate(
+      req.attendee._id,
+      req.body,
+      { new: true }
+    );
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: "Update failed" });
+  }
+};

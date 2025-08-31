@@ -8,6 +8,7 @@ export const AttendeeDataProvider = ({ children }) => {
     name: "",
     password: "",
     city: "",
+    phoneNumber: "",
   });
 
   return (

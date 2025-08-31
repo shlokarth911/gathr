@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 import gsap from "gsap";
-import ListedVenuesPannel from "../components/ListedVenuesPannel";
+import ListedVenuesPannel from "../components/attendee_home/ListedVenuesPannel";
 
 const RegisterOwner = () => {
   const [name, setName] = useState("");

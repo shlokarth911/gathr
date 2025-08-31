@@ -1,43 +1,23 @@
-// AttendeeHomeHeader.jsx
 import React, { useEffect, useRef } from "react";
 import { UserRound, Bell, Search } from "lucide-react";
 import gsap from "gsap";
 
-/**
- * AttendeeHomeHeader
- *
- * - Frosted (backdrop-blur) container
- * - Avatar with subtle ring
- * - Greeting + optional subtitle
- * - Notification bell with badge
- * - Primary CTA button using your color #43ff1d
- * - GSAP animations (entrance + micro interactions)
- *
- * Props:
- *  - name (string) default "Alex"
- *  - onNotificationsClick (fn) optional
- *  - onCTA (fn) optional
- *
- * Small notes (in-code comments) show where to add additional functionality:
- *  - notifications panel, user menu, quick-search modal, presence indicator, etc.
- */
-
-export default function AttendeeHomeHeader({
-  name = "Alex",
+const OwnerHome = ({
+  user = { name: "Owner" },
   onNotificationsClick = () =>
     alert("Open notifications (wire this to your panel)"),
-}) {
+}) => {
   const rootRef = useRef(null);
   const avatarRef = useRef(null);
   const bellRef = useRef(null);
 
-  // Respect users who prefer reduced motion
-  const prefersReducedMotion =
-    typeof window !== "undefined" &&
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   useEffect(() => {
+    // Respect users who prefer reduced motion
+    const prefersReducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     if (prefersReducedMotion) return;
 
     // small entrance + stagger for avatar, text, actions
@@ -87,7 +67,7 @@ export default function AttendeeHomeHeader({
     }, rootRef);
 
     return () => ctx.revert();
-  }, [prefersReducedMotion]);
+  }, []);
 
   return (
     <header
@@ -110,17 +90,26 @@ export default function AttendeeHomeHeader({
           }}
         >
           <div
-            className="bg-white p-2 rounded-full flex items-center justify-center"
+            className=" p-2 rounded-full flex items-center justify-center"
             style={{ width: 44, height: 44 }}
           >
-            {/* If you have user images, replace this icon with an <img/> */}
-            <UserRound color="black" size={20} />
+            {user.avatar ? (
+              <img
+                src={user.avatar}
+                alt={user.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="text-2xl flex items-center justify-center font-semibold  text-neutral-50">
+                {user.name?.[0] ?? "U"}
+              </div>
+            )}
           </div>
         </div>
 
         <div>
           <h3 className="text-base font-semibold gathr-greet text-white">
-            Hi, {name}
+            Hi, {user.name}
           </h3>
         </div>
       </div>
@@ -159,4 +148,6 @@ export default function AttendeeHomeHeader({
       */}
     </header>
   );
-}
+};
+
+export default OwnerHome;
