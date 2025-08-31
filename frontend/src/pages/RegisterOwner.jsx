@@ -1,9 +1,11 @@
 import { ArrowLeft } from "lucide-react";
-import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import gsap from "gsap";
 import ListedVenuesPannel from "../components/attendee_home/ListedVenuesPannel";
+import { OwnerDataContext } from "../contexts/OwnerContext";
+import axios from "axios";
 
 const RegisterOwner = () => {
   const [name, setName] = useState("");
@@ -18,20 +20,43 @@ const RegisterOwner = () => {
   const submitRef = useRef(null);
   const arrowRef = useRef(null);
 
+  const { setOwner } = useContext(OwnerDataContext);
+  const navigate = useNavigate();
+
   const prefersReducedMotion =
     typeof window !== "undefined" &&
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    const attendeeData = {
-      name: name,
-      email: email,
-      password: password,
+    const owner = {
+      name,
+      email,
+      password,
     };
 
-    console.log(attendeeData);
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/owner/register`,
+        owner
+      );
+
+      if (response.status === 201) {
+        const data = response.data;
+        setOwner(data.owner);
+        localStorage.setItem("owner_token", data.token);
+        navigate("/owner/home");
+      } else {
+        alert(response.data.message || "Registration failed");
+      }
+    } catch (error) {
+      alert(error.response?.data?.message || "Server error. Please try again.");
+    }
+
+    setEmail("");
+    setName("");
+    setPassword("");
   };
 
   // page entrance animations for header, panel, inputs

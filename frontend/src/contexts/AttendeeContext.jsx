@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react";
 
 export const AttendeeDataContext = createContext();
 
-export const AttendeeDataProvider = ({ children }) => {
+const AttendeeContext = ({ children }) => {
   const [attendee, setAttendee] = useState({
     email: "",
     name: "",
@@ -17,3 +17,5 @@ export const AttendeeDataProvider = ({ children }) => {
     </AttendeeDataContext.Provider>
   );
 };
+
+export default AttendeeContext;

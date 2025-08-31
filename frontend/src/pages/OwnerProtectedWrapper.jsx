@@ -1,37 +1,38 @@
-import React, { Children, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AttendeeDataContext } from "../contexts/AttendeeContext";
+import { OwnerDataContext } from "../contexts/OwnerContext";
 import axios from "axios";
 
-const AttendeeProtectedWrapper = ({ children }) => {
-  const token = localStorage.getItem("attendee_token");
+const OwnerProtectedWrapper = ({ children }) => {
   const navigate = useNavigate();
-  const { setAttendee } = useContext(AttendeeDataContext);
+
+  const token = localStorage.getItem("owner_token");
+  const { setOwner } = useContext(OwnerDataContext);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (!token) {
-      navigate("/login");
+      navigate("/owner/login");
     }
 
     axios
-      .get(`${import.meta.env.VITE_BASE_URL}/attendee/profile`, {
+      .get(`${import.meta.env.VITE_BASE_URL}/owner/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
         if (res.status === 200) {
-          setAttendee(res.data);
+          setOwner(res.data);
           setIsLoading(false);
         }
       })
       .catch((err) => {
         console.log(err);
-        localStorage.removeItem("attendee_token");
-        navigate("/attendee/login");
+        localStorage.removeItem("owner_token");
+        navigate("/owner/login");
       });
-  }, [token, setAttendee, navigate, setIsLoading]);
+  }, [token, navigate, setOwner]);
 
   if (isLoading) {
     return (
@@ -44,4 +45,4 @@ const AttendeeProtectedWrapper = ({ children }) => {
   }
 };
 
-export default AttendeeProtectedWrapper;
+export default OwnerProtectedWrapper;

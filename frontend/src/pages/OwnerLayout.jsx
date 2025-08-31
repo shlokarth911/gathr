@@ -3,10 +3,10 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import NavigationMenu from "../components/NavigationMenu";
 
 const items = [
-  { key: "home", label: "Home", path: "/attendee/home" },
-  { key: "bookings", label: "Bookings", path: "/attendee/bookings" },
-  { key: "favorites", label: "Favorites" },
-  { key: "profile", label: "Profile", path: "/attendee/profile" },
+  { key: "home", label: "Home", path: "/owner/home" },
+  { key: "bookings", label: "Bookings", path: "/owneer/bookings" },
+  { key: "services", label: "Services", path: "/owner/services" },
+  { key: "profile", label: "Profile", path: "/owner/profile" },
 ];
 const OwnerLayout = () => {
   const navigate = useNavigate();

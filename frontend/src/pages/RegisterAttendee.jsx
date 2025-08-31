@@ -19,7 +19,7 @@ const RegisterAttendee = () => {
   const submitRef = useRef(null);
   const arrowRef = useRef(null);
 
-  const { attendee, setAttendee } = useContext(AttendeeDataContext);
+  const { setAttendee } = useContext(AttendeeDataContext);
   const navigate = useNavigate();
 
   const prefersReducedMotion =
