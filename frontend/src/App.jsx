@@ -16,6 +16,7 @@ import OwnerLayout from "./pages/OwnerLayout";
 import OwnerHome from "./pages/OwnerHome";
 import OwnerProtectedWrapper from "./pages/OwnerProtectedWrapper";
 import OwnerBookings from "./pages/OwnerBookings";
+import OwnerVenues from "./pages/OwnerVenues";
 
 const App = () => {
   return (
@@ -53,6 +54,7 @@ const App = () => {
           >
             <Route path="home" element={<OwnerHome />} />
             <Route path="bookings" element={<OwnerBookings />} />
+            <Route path="venues" element={<OwnerVenues />} />
           </Route>
         </Routes>
       </OwnerContext>
