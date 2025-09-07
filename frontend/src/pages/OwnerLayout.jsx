@@ -4,8 +4,8 @@ import NavigationMenu from "../components/NavigationMenu";
 
 const items = [
   { key: "home", label: "Home", path: "/owner/home" },
-  { key: "bookings", label: "Bookings", path: "/owneer/bookings" },
-  { key: "services", label: "Services", path: "/owner/services" },
+  { key: "bookings", label: "Bookings", path: "/owner/bookings" },
+  { key: "venues", label: "Venues", path: "/owner/venues" },
   { key: "profile", label: "Profile", path: "/owner/profile" },
 ];
 const OwnerLayout = () => {

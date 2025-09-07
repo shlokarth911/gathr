@@ -15,6 +15,7 @@ import AttendeeProtectedWrapper from "./pages/AttendeeProtectedWrapper";
 import OwnerLayout from "./pages/OwnerLayout";
 import OwnerHome from "./pages/OwnerHome";
 import OwnerProtectedWrapper from "./pages/OwnerProtectedWrapper";
+import OwnerBookings from "./pages/OwnerBookings";
 
 const App = () => {
   return (
@@ -51,6 +52,7 @@ const App = () => {
             }
           >
             <Route path="home" element={<OwnerHome />} />
+            <Route path="bookings" element={<OwnerBookings />} />
           </Route>
         </Routes>
       </OwnerContext>
