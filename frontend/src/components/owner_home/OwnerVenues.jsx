@@ -8,7 +8,10 @@ const OwnerVenues = ({ ownedVenues }) => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">Your Venues</h1>
-        <Link className="text-sm text-neutral-400 flex items-center gap-1">
+        <Link
+          to={"/owner/venues"}
+          className="text-sm text-neutral-400 flex items-center gap-1"
+        >
           See All <ArrowRight size={18} />
         </Link>
       </div>

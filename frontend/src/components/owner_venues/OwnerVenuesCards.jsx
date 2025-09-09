@@ -1,9 +1,14 @@
 import { Star } from "lucide-react";
 import React from "react";
 
-const OwnerVenuesCards = ({ ownedVenues }) => {
+const OwnerVenuesCards = ({ ownedVenues, setIsOwnerVenueDetalsOpen }) => {
   return (
-    <div className="w-full flex flex-col gap-5">
+    <div
+      onClick={() => {
+        setIsOwnerVenueDetalsOpen(true);
+      }}
+      className="w-full flex flex-col gap-5"
+    >
       {ownedVenues.map((venue, idx) => {
         const rating = venue.averageRating;
         let starColor = "#fff";

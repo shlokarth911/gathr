@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import NavigationMenu from "../components/NavigationMenu";
+import NavigationMenu from "../components/ui/NavigationMenu";
 
 const items = [
   { key: "home", label: "Home", path: "/owner/home" },

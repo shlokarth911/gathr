@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import NavigationMenu from "../components/NavigationMenu";
+
 import { Beer, Brush, Gem, Guitar, MicVocal, Music2, Wand } from "lucide-react";
 
 import AttendeeHomeHeader from "../components/attendee_home/AttendeeHomeHeader";
