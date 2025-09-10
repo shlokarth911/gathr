@@ -67,7 +67,7 @@ const OwnerVenueDetals = ({
     return () => window.removeEventListener("keydown", handleKey);
   }, [activeIndex, slides.length]);
   return (
-    <div className="fixed left-0 right-0 bottom-0 h-screen  bg-neutral-950/80 w-full backdrop-blur-lg shadow-2xl">
+    <div className="fixed left-0 right-0 bottom-0 h-screen  bg-neutral-950/75 w-full backdrop-blur-lg shadow-2xl">
       <div className="h-full flex flex-col">
         {/* Sticky header with close */}
         <div className="sticky top-0 z-20 bg-transparent px-6 py-2 pt-6 flex items-center justify-between">

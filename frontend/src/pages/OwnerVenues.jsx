@@ -30,7 +30,7 @@ const OwnerVenues = () => {
     } else {
       gsap.to(ownerVenueDetailRef.current, {
         y: "100%",
-        duration: 0.7,
+        duration: 0.9,
         ease: "expo.out",
       });
     }
