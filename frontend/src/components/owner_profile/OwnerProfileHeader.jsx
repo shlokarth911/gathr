@@ -1,7 +1,7 @@
 import { Pencil } from "lucide-react";
 import React from "react";
 
-const OwnerProfileHeader = () => {
+const OwnerProfileHeader = ({ setEditOwnerProfile }) => {
   return (
     <>
       <div className="p-6 flex items-center justify-between">
@@ -12,7 +12,12 @@ const OwnerProfileHeader = () => {
           </p>
         </div>
 
-        <div className="p-3 rounded-full bg-white/20">
+        <div
+          onClick={() => {
+            setEditOwnerProfile(true);
+          }}
+          className="p-3 rounded-full bg-white/20"
+        >
           <Pencil size={20} />
         </div>
       </div>

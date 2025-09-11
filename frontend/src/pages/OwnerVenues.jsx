@@ -17,6 +17,7 @@ import OwnerVenueDetals from "../components/owner_venues/OwnerVenueDetals";
 
 const OwnerVenues = () => {
   const ownerVenueDetailRef = useRef(null);
+  const OwnerVenueCardsRef = useRef(null);
 
   const [isOwnerVenueDetalsOpen, setIsOwnerVenueDetalsOpen] = useState(false);
 
@@ -27,9 +28,22 @@ const OwnerVenues = () => {
         duration: 0.9,
         ease: "expo.out",
       });
+
+      gsap.to(OwnerVenueCardsRef.current, {
+        scale: 0.9,
+        opacity: "0.5",
+        duration: 0.9,
+        ease: "expo.out",
+      });
     } else {
       gsap.to(ownerVenueDetailRef.current, {
         y: "100%",
+        duration: 0.9,
+        ease: "expo.out",
+      });
+      gsap.to(OwnerVenueCardsRef.current, {
+        scale: 1,
+        opacity: 1,
         duration: 0.9,
         ease: "expo.out",
       });
@@ -111,13 +125,15 @@ const OwnerVenues = () => {
 
   return (
     <div>
-      <div className="p-6">
-        <h1 className="text-3xl font-bold">Your Venues</h1>
-        <div className="mt-4 flex items-center min-h-screen flex-col gap-5">
-          <OwnerVenuesCards
-            setIsOwnerVenueDetalsOpen={setIsOwnerVenueDetalsOpen}
-            ownedVenues={ownedVenues}
-          />
+      <div className="p-6 ">
+        <div ref={OwnerVenueCardsRef}>
+          <h1 className="text-3xl font-bold">Your Venues</h1>
+          <div className="mt-4 flex items-center  flex-col gap-5">
+            <OwnerVenuesCards
+              setIsOwnerVenueDetalsOpen={setIsOwnerVenueDetalsOpen}
+              ownedVenues={ownedVenues}
+            />
+          </div>
         </div>
       </div>
 

@@ -1,32 +1,62 @@
-import { Pencil, Star } from "lucide-react";
-import React from "react";
+import React, { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+
 import OwnerProfileHeader from "../components/owner_profile/OwnerProfileHeader";
 import OwnerDetails from "../components/owner_profile/OwnerDetails";
+import OwnerStats from "../components/attendee_profile/OwnerStats";
+import OwnerActions from "../components/attendee_profile/OwnerActions";
+import OwnerEditProfilePannel from "../components/attendee_profile/OwnerEditProfilePannel";
+import gsap from "gsap";
 
 const OwnerProfile = () => {
+  const [editOwnerProfile, setEditOwnerProfile] = useState(false);
+  const editOwnerProfileRef = useRef(null);
+
+  useGSAP(() => {
+    if (editOwnerProfile) {
+      gsap.to(editOwnerProfileRef.current, {
+        y: 0,
+        duration: 0.8,
+        ease: "expo.inOut",
+      });
+    } else {
+      gsap.to(editOwnerProfileRef.current, {
+        y: "100%",
+        duration: 0.8,
+        ease: "expo.inOut",
+      });
+    }
+  }, [editOwnerProfile]);
+
+  const stats = {
+    pending: 2,
+    confirmed: 3,
+    completed: 1,
+  };
+
   return (
     <>
       {/* Header */}
-      <OwnerProfileHeader />
+      <OwnerProfileHeader setEditOwnerProfile={setEditOwnerProfile} />
 
       {/* Owner Details */}
       <OwnerDetails />
 
       {/* Owner stats */}
-      <div className="p-6 pt-0 grid grid-cols-3 gap-4">
-        <div className="py-2   text-center rounded-xl bg-neutral-700/30">
-          <h3 className="text-sm text-neutral-400">Stat</h3>
-          <h1 className="text-2xl font-semibold">100</h1>
-        </div>
-        <div className="py-2  text-center rounded-xl bg-neutral-700/30">
-          <h3 className="text-sm text-neutral-400">Stat</h3>
-          <h1 className="text-2xl font-semibold">100</h1>
-        </div>
-        <div className="py-2  text-center rounded-xl bg-neutral-700/30">
-          <h3 className="text-sm text-neutral-400">Stat</h3>
-          <h1 className="text-2xl font-semibold">100</h1>
-        </div>
+      <OwnerStats stats={stats} />
+
+      {/* Owner Actions */}
+      <OwnerActions />
+
+      {/* Edit Profile Pannel */}
+      <div
+        ref={editOwnerProfileRef}
+        className="fixed bottom-0 z-20 w-full transform -translate-y-[-100%]"
+      >
+        <OwnerEditProfilePannel setEditOwnerProfile={setEditOwnerProfile} />
       </div>
+
+      <div className="w-full h-28"></div>
     </>
   );
 };

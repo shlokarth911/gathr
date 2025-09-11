@@ -20,7 +20,7 @@ const OwnerVenuesCards = ({ ownedVenues, setIsOwnerVenueDetalsOpen }) => {
         return (
           <div
             key={idx}
-            className="rounded-2xl shrink-0 overflow-hidden snap-start w-[105%] max-w-sm bg-neutral-800/90 shadow-md shadow-black/40"
+            className="rounded-2xl shrink-0 overflow-hidden  bg-neutral-800/90 shadow-md shadow-black/40"
             style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
           >
             <img
