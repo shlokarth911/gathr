@@ -11,12 +11,12 @@ import {
   X,
 } from "lucide-react";
 
-const OwnerVenueDetals = ({
+const OwnerVenueDetails = ({
   reviews,
   bookings,
   amenities,
   images,
-  setIsOwnerVenueDetalsOpen,
+  setIsOwnerVenueDetailsOpen,
 }) => {
   const containerRef = useRef(null);
   const slideRefs = useRef([]);
@@ -81,7 +81,7 @@ const OwnerVenueDetals = ({
 
             <button
               onClick={() => {
-                setIsOwnerVenueDetalsOpen(false);
+                setIsOwnerVenueDetailsOpen(false);
               }}
               className="p-2  bg-neutral-800 rounded-full"
             >
@@ -289,4 +289,4 @@ const OwnerVenueDetals = ({
   );
 };
 
-export default OwnerVenueDetals;
+export default OwnerVenueDetails;

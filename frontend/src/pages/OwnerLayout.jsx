@@ -20,7 +20,7 @@ const OwnerLayout = () => {
       <Outlet />
 
       {/* Centralized Navbar */}
-      <div className="w-full bg-neutral-950/10 fixed flex items-center justify-center bottom-[3%]">
+      <div className="w-full bg-neutral-950/10 fixed flex items-center justify-center bottom-[2%]">
         <div className="w-[80%] flex items-center justify-center">
           <NavigationMenu
             activeKey={currentItem.key}

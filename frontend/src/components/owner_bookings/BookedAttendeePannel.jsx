@@ -1,7 +1,7 @@
 import { ChevronDown, Phone } from "lucide-react";
 import React from "react";
 
-const BookedAttendeePannel = ({ setBookedAttendeePannel }) => {
+const BookedAttendeePannel = ({ setBookedAttendeePannel, setMainScreen }) => {
   return (
     <div className=" bg-neutral-950/60 w-full p-4   rounded-t-4xl backdrop-blur-xl">
       <div className="w-full items-center justify-center flex">
@@ -9,6 +9,7 @@ const BookedAttendeePannel = ({ setBookedAttendeePannel }) => {
           size={28}
           onClick={() => {
             setBookedAttendeePannel(false);
+            setMainScreen(false);
           }}
         />
       </div>

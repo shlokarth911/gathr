@@ -1,11 +1,11 @@
 import { Star } from "lucide-react";
 import React from "react";
 
-const OwnerVenuesCards = ({ ownedVenues, setIsOwnerVenueDetalsOpen }) => {
+const OwnerVenuesCards = ({ ownedVenues, setIsOwnerVenueDetailsOpen }) => {
   return (
     <div
       onClick={() => {
-        setIsOwnerVenueDetalsOpen(true);
+        setIsOwnerVenueDetailsOpen(true);
       }}
       className="w-full flex flex-col gap-5"
     >
@@ -24,7 +24,10 @@ const OwnerVenuesCards = ({ ownedVenues, setIsOwnerVenueDetalsOpen }) => {
             style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
           >
             <img
-              src={venue.img}
+              src={venue.img.replace(
+                "/upload/",
+                "/upload/q_auto,f_auto,w_1000/"
+              )}
               alt={venue.name}
               className="h-44 w-full object-cover"
             />

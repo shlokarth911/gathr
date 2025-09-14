@@ -24,7 +24,8 @@ module.exports.authAttendee = async (req, res, next) => {
 
 module.exports.authOwner = async (req, res, next) => {
   const token =
-    req.cookies.owner_token || req.headers.authorization?.split(" ")[1];
+    req.cookies.owner_token ||
+    (req.headers.authorization && req.headers.authorization.split(" ")[1]);
 
   if (!token) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -32,9 +33,9 @@ module.exports.authOwner = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const attendee = await ownerModel.findById(decoded.id);
+    const owner = await ownerModel.findById(decoded.id);
 
-    req.attendee = attendee;
+    req.owner = owner;
 
     return next();
   } catch (error) {

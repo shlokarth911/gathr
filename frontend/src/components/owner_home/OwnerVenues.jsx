@@ -99,7 +99,7 @@ const OwnerVenues = ({ ownedVenues }) => {
       </div>
 
       {/* CTA to List New Venue */}
-      <Link to="/owner/add_venue">
+      <Link to="/owner/venues">
         <div className="flex items-center flex-col py-6 mt-6 rounded-2xl border border-dashed border-neutral-500/40 bg-neutral-800/70 hover:bg-neutral-700 transition">
           <Plus color="#b9b9b9" size={24} />
           <h1 className="text-sm mt-2 text-[#b9b9b9] font-medium">
