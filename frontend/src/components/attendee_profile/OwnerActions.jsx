@@ -1,7 +1,7 @@
 import { ArrowRight, CreditCard, LogOut, MapPinCheck } from "lucide-react";
 import React from "react";
 
-const OwnerActions = () => {
+const OwnerActions = ({ signOut }) => {
   return (
     <div className="px-6">
       <h2 className="text-xl font-semibold">Actions</h2>
@@ -18,7 +18,10 @@ const OwnerActions = () => {
           <p>Verification</p>
           <MapPinCheck size={20} />
         </div>
-        <div className="flex items-center justify-between py-2 px-4  bg-red-600/90 rounded-xl">
+        <div
+          onClick={signOut}
+          className="flex items-center justify-between py-2 px-4  bg-red-600/90 rounded-xl"
+        >
           <p>Sign Out</p>
           <LogOut size={20} />
         </div>
