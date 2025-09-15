@@ -24,7 +24,7 @@ module.exports.authAttendee = async (req, res, next) => {
 
 module.exports.authOwner = async (req, res, next) => {
   const token =
-    req.cookies.owner_token ||
+    req.cookies?.owner_token ||
     (req.headers.authorization && req.headers.authorization.split(" ")[1]);
 
   if (!token) {
@@ -34,12 +34,12 @@ module.exports.authOwner = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const owner = await ownerModel.findById(decoded.id);
+    if (!owner) return res.status(401).json({ message: "Unauthorized" });
 
     req.owner = owner;
-
     return next();
   } catch (error) {
-    console.log("Error in AuthOwner", error);
+    console.error("Error in authOwner:", error);
     return res.status(401).json({ message: "Unauthorized" });
   }
 };

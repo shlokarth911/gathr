@@ -5,6 +5,8 @@ import gsap from "gsap";
 import OwnerVenuesCards from "../components/owner_venues/OwnerVenuesCards";
 import OwnerVenueDetails from "../components/owner_venues/OwnerVenueDetails";
 import CreateNewVenuePannel from "../components/owner_venues/CreateNewVenuePannel";
+import { useEffect } from "react";
+import { fetchOwnedVenues } from "../api/venueApi";
 
 const OwnerVenues = () => {
   const ownerVenueDetailRef = useRef(null);
@@ -12,6 +14,7 @@ const OwnerVenues = () => {
   const createNewVenuePannelRef = useRef(null);
 
   const [isOwnerVenueDetailsOpen, setIsOwnerVenueDetailsOpen] = useState(false);
+  const [venuesData, setVenuesData] = useState([]);
   const [isCreateNewVenuePannelOpen, setIsCreateNewVenuePannelOpen] =
     useState(false);
 
@@ -73,25 +76,24 @@ const OwnerVenues = () => {
     }
   }, [isCreateNewVenuePannelOpen]);
 
-  // TODO : Replace mock data
-  const ownedVenues = [
-    {
-      name: "Mount View",
-      address: "Ranchi",
-      img: "https://images.unsplash.com/photo-1712226652059-a34d334e6cd0?q=80&w=1170&auto=format&fit=crop",
-      status: "booked",
-      price: "50000",
-      averageRating: 4.5,
-    },
-    {
-      name: "Sunset Terrace",
-      address: "Ranchi",
-      img: "https://images.unsplash.com/photo-1505691723518-36a77bada6d5?q=80&w=1170&auto=format&fit=crop",
-      status: "available",
-      price: "35000",
-      averageRating: 4.3,
-    },
-  ];
+  useEffect(() => {
+    const loadVenues = async () => {
+      try {
+        const data = await fetchOwnedVenues();
+        setVenuesData(data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        console.log(
+          "Fetch owned venues attempt finished (either success or failure)."
+        );
+      }
+    };
+
+    loadVenues();
+  }, []);
+  // Dummy Data
+  // Replace with actual data fetching logic
 
   const venueBookings = [
     {
@@ -163,8 +165,8 @@ const OwnerVenues = () => {
           </div>
           <div className="mt-4 flex items-center  flex-col gap-5">
             <OwnerVenuesCards
+              venuesData={venuesData}
               setIsOwnerVenueDetailsOpen={setIsOwnerVenueDetailsOpen}
-              ownedVenues={ownedVenues}
             />
           </div>
         </div>

@@ -59,7 +59,6 @@ const TopVenues = ({ topPickedVenues = [] }) => {
       </div>
 
       <div className="relative mt-3">
-        {/* Right-side frosted circular affordance with arrow (purely decorative, pointer-events-none) */}
         <div
           aria-hidden
           className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-2 bg-white/10"

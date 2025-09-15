@@ -1,7 +1,11 @@
 import { Star } from "lucide-react";
 import React from "react";
 
-const OwnerVenuesCards = ({ ownedVenues, setIsOwnerVenueDetailsOpen }) => {
+const OwnerVenuesCards = ({ venuesData, setIsOwnerVenueDetailsOpen }) => {
+  console.log(venuesData, " Hello");
+
+  console.log(venuesData.img);
+
   return (
     <div
       onClick={() => {
@@ -9,7 +13,7 @@ const OwnerVenuesCards = ({ ownedVenues, setIsOwnerVenueDetailsOpen }) => {
       }}
       className="w-full flex flex-col gap-5"
     >
-      {ownedVenues.map((venue, idx) => {
+      {venuesData.map((venue, idx) => {
         const rating = venue.averageRating;
         let starColor = "#fff";
         if (rating > 4) starColor = "#57e32c";
@@ -24,10 +28,7 @@ const OwnerVenuesCards = ({ ownedVenues, setIsOwnerVenueDetailsOpen }) => {
             style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
           >
             <img
-              src={venue.img.replace(
-                "/upload/",
-                "/upload/q_auto,f_auto,w_1000/"
-              )}
+              src={venue.img.url}
               alt={venue.name}
               className="h-44 w-full object-cover"
             />
@@ -44,7 +45,7 @@ const OwnerVenuesCards = ({ ownedVenues, setIsOwnerVenueDetailsOpen }) => {
                 <div>
                   <p className="text-xs text-neutral-400">Avg. Rating</p>
                   <h1 className="text-lg font-semibold flex items-center gap-1 justify-end">
-                    {rating.toFixed(1)}{" "}
+                    {venue.averageRating.toFixed(1)}{" "}
                     <Star
                       className="inline"
                       color={starColor}

@@ -44,10 +44,11 @@ module.exports.createVenue = async (req, res) => {
 module.exports.getVenues = async (req, res) => {
   try {
     const venues = await Venue.find({ owner: req.owner._id });
-    res.status(200).json(venues);
+    // Send JSON array
+    return res.status(200).json(venues);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.error("getVenues error:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 };
 

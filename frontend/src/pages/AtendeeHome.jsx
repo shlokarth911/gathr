@@ -14,9 +14,9 @@ import FAQSection from "../components/attendee_home/FAQSection";
 import { AttendeeDataContext } from "../contexts/AttendeeContext";
 
 const AtendeeHome = () => {
-  const { attendee, setAttendee } = useContext(AttendeeDataContext);
+  const { attendee } = useContext(AttendeeDataContext);
 
-  const [user, setUser] = useState(attendee);
+  const [user] = useState(attendee);
 
   const categories = [
     {
