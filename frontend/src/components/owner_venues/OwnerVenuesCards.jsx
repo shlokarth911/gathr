@@ -1,51 +1,67 @@
-import { Star } from "lucide-react";
 import React from "react";
+import { Star } from "lucide-react";
 
-const OwnerVenuesCards = ({ venuesData, setIsOwnerVenueDetailsOpen }) => {
-  console.log(venuesData, " Hello");
-
-  console.log(venuesData.img);
+const OwnerVenuesCards = ({
+  venuesData = [],
+  onCardClick = () => {},
+  selectedVenueID,
+}) => {
+  if (!Array.isArray(venuesData)) return null;
 
   return (
-    <div
-      onClick={() => {
-        setIsOwnerVenueDetailsOpen(true);
-      }}
-      className="w-full flex flex-col gap-5"
-    >
+    <div className="w-full flex flex-col gap-5" ref={null}>
       {venuesData.map((venue, idx) => {
-        const rating = venue.averageRating;
+        const id = venue?._id ?? venue?.id ?? idx;
+        const rating = Number(venue?.averageRating ?? 0);
         let starColor = "#fff";
         if (rating > 4) starColor = "#57e32c";
         else if (rating > 3) starColor = "#b7dd29";
         else if (rating > 2) starColor = "#ffe234";
         else if (rating > 1) starColor = "#ffa534";
         else if (rating > 0) starColor = "#ff4545";
+
+        // img can be an object or a string; handle both
+        const imgUrl =
+          typeof venue?.img === "string"
+            ? venue.img
+            : venue?.img?.url ?? venue?.img?.secure_url ?? "";
+
         return (
-          <div
-            key={idx}
-            className="rounded-2xl shrink-0 overflow-hidden  bg-neutral-800/90 shadow-md shadow-black/40"
+          <button
+            key={id}
+            onClick={() => onCardClick(id)}
+            className={`rounded-2xl shrink-0 overflow-hidden bg-neutral-800/90 shadow-md shadow-black/40 text-left ${
+              selectedVenueID === id ? "ring-2 ring-primary-500" : ""
+            }`}
             style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
           >
-            <img
-              src={venue.img.url}
-              alt={venue.name}
-              className="h-44 w-full object-cover"
-            />
+            {imgUrl ? (
+              <img
+                src={imgUrl}
+                alt={venue?.name}
+                className="h-44 w-full object-cover"
+              />
+            ) : (
+              <div className="h-44 w-full bg-neutral-700 flex items-center justify-center text-sm text-neutral-300">
+                No image
+              </div>
+            )}
+
             <div className="p-4">
               <div className="flex justify-between">
                 <div>
                   <h1 className="text-lg font-semibold truncate">
-                    {venue.name}
+                    {venue?.name}
                   </h1>
                   <p className="text-sm text-neutral-400 truncate">
-                    {venue.address}
+                    {venue?.address}
                   </p>
                 </div>
+
                 <div>
                   <p className="text-xs text-neutral-400">Avg. Rating</p>
                   <h1 className="text-lg font-semibold flex items-center gap-1 justify-end">
-                    {venue.averageRating.toFixed(1)}{" "}
+                    {(rating || 0).toFixed(1)}{" "}
                     <Star
                       className="inline"
                       color={starColor}
@@ -55,20 +71,21 @@ const OwnerVenuesCards = ({ venuesData, setIsOwnerVenueDetailsOpen }) => {
                   </h1>
                 </div>
               </div>
+
               <div className="mt-3 flex justify-between items-center">
                 <span
                   className={`text-xs px-2 py-1 rounded-full ${
-                    venue.status === "Booked"
+                    venue?.status === "Booked"
                       ? "bg-emerald-600 text-white"
                       : "bg-yellow-600 text-white"
                   }`}
                 >
-                  {venue.status}
+                  {venue?.status ?? "Unknown"}
                 </span>
-                <h1 className="text-xl font-bold">₹{venue.price}</h1>
+                <h1 className="text-xl font-bold">₹{venue?.price ?? "—"}</h1>
               </div>
             </div>
-          </div>
+          </button>
         );
       })}
     </div>

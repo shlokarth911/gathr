@@ -128,3 +128,30 @@ module.exports.deleteVenues = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+//get details of specefic venue
+module.exports.getVenueDetails = async (req, res, next) => {
+  try {
+    const venueId = req.params.id;
+    if (!mongoose.Types.ObjectId.isValid(venueId)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid venue ID" });
+    }
+
+    const ownerId = req.owner._id;
+    const venue = await Venue.findOne({ _id: venueId, owner: ownerId });
+
+    if (!venue) {
+      return res.status(404).json({
+        success: false,
+        message: "Venue not found or unauthorized",
+      });
+    }
+
+    res.status(200).json({ success: true, venue });
+  } catch (error) {
+    console.log(`Error in venuecontroller getVenueDetails ${error}`);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};

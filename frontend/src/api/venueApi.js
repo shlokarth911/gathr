@@ -1,4 +1,4 @@
-// src/api/venueApi.js
+// src/api/venueApi.js (corrected)
 import axios from "axios";
 
 const API_BASE = import.meta.env.VITE_BASE_URL || "";
@@ -29,6 +29,38 @@ export const fetchOwnedVenues = async () => {
   } catch (error) {
     console.error(
       "Error fetching owned venues:",
+      error.response?.status,
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+export const fetchVenueDetails = async (venueID) => {
+  try {
+    const token = localStorage.getItem("owner_token");
+    const response = await axios.get(`${API_BASE}/venue/get/${venueID}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token ? `Bearer ${token}` : undefined,
+      },
+      withCredentials: true,
+    });
+
+    const venue = response.data.venue;
+    return {
+      name: venue.name,
+      address: venue.address,
+      img: venue.images,
+      amenities: venue.amenities,
+      status: venue.status,
+      price: (venue.price ?? "").toString(),
+      averageRating: venue.averageRating || 0,
+      _id: venue._id,
+    };
+  } catch (error) {
+    console.error(
+      "Error fetching venue details:",
       error.response?.status,
       error.response?.data || error.message
     );

@@ -12,22 +12,38 @@ import {
 } from "lucide-react";
 
 const OwnerVenueDetails = ({
-  reviews,
-  bookings,
-  amenities,
-  images,
+  selectedVenue = null,
+  reviews: fallbackReviews = [],
+  bookings: fallbackBookings = [],
+  amenities: fallbackAmenities = [],
+  images: fallbackImages = [],
   setIsOwnerVenueDetailsOpen,
 }) => {
   const containerRef = useRef(null);
   const slideRefs = useRef([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const slides = images;
+  const normalizeImages = (imgArr) => {
+    if (!Array.isArray(imgArr)) return [];
+    return imgArr.map((it) => (typeof it === "string" ? it : it?.url ?? ""));
+  };
 
-  // IntersectionObserver: (kept for your older logic; optional if ImageCarousel handles it)
+  const imagesArr =
+    normalizeImages(selectedVenue?.images ?? fallbackImages) || [];
+
+  const amenitiesArr = selectedVenue?.amenities ?? fallbackAmenities ?? [];
+  const bookingsArr = selectedVenue?.bookings ?? fallbackBookings ?? [];
+  const reviewsArr = selectedVenue?.reviews ?? fallbackReviews ?? [];
+
+  const slides = imagesArr;
+
+  // IntersectionObserver: to sync activeIndex with visible slide
   useEffect(() => {
     const el = containerRef.current;
-    if (!el) return;
+    if (!el || slides.length === 0) return;
+
+    // clear previous refs
+    slideRefs.current = slideRefs.current.slice(0, slides.length);
 
     const options = {
       root: el,
@@ -57,23 +73,50 @@ const OwnerVenueDetails = ({
     });
   };
 
+  // keyboard navigation for carousel
   useEffect(() => {
     const handleKey = (e) => {
       if (e.key === "ArrowRight")
         scrollToIndex(Math.min(activeIndex + 1, slides.length - 1));
       if (e.key === "ArrowLeft") scrollToIndex(Math.max(activeIndex - 1, 0));
+      if (e.key === "Escape") setIsOwnerVenueDetailsOpen(false);
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [activeIndex, slides.length]);
+  }, [activeIndex, slides.length, setIsOwnerVenueDetailsOpen]);
+
+  // Simple "loading" or empty-state guard
+  if (
+    !selectedVenue &&
+    slides.length === 0 &&
+    bookingsArr.length === 0 &&
+    reviewsArr.length === 0
+  ) {
+    return (
+      <div className="fixed left-0 right-0 bottom-0 h-screen bg-neutral-950/75 w-full backdrop-blur-lg">
+        <div className="h-full flex items-center justify-center text-neutral-400">
+          No venue selected
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed left-0 right-0 bottom-0 h-screen  bg-neutral-950/75 w-full backdrop-blur-lg shadow-2xl">
       <div className="h-full flex flex-col">
         {/* Sticky header with close */}
         <div className="sticky top-0 z-20 bg-transparent px-6 py-2 pt-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <h2 className="text-lg font-semibold">Venue Detail</h2>
+            <h2 className="text-lg font-semibold">
+              {selectedVenue?.name ?? "Venue Detail"}
+            </h2>
+            {selectedVenue?.address && (
+              <p className="text-sm text-neutral-400">
+                {selectedVenue.address}
+              </p>
+            )}
           </div>
+
           <div className="flex items-center gap-1">
             <button className="p-2 rounded-full bg-neutral-800">
               <Pencil size={20} />
@@ -84,6 +127,7 @@ const OwnerVenueDetails = ({
                 setIsOwnerVenueDetailsOpen(false);
               }}
               className="p-2  bg-neutral-800 rounded-full"
+              aria-label="Close venue details"
             >
               <X size={24} />
             </button>
@@ -94,7 +138,8 @@ const OwnerVenueDetails = ({
         <div className="h-full overflow-y-auto px-6 pb-10">
           {/* Carousel */}
           <div className="relative overflow-hidden rounded-2xl">
-            <ImageCarousel images={images} />
+            {/* If you keep a separate ImageCarousel component, pass imagesArr */}
+            <ImageCarousel images={imagesArr} />
           </div>
 
           {/* Add a new image button */}
@@ -106,18 +151,27 @@ const OwnerVenueDetails = ({
           {/* Name and basic details*/}
           <div className="py-5 flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-semibold">Mount View</h1>
-              <p className="text-lg text-neutral-400">Ranchi</p>
+              <h1 className="text-3xl font-semibold">
+                {selectedVenue?.name ?? "Mount View"}
+              </h1>
+              {selectedVenue?.address && (
+                <p className="text-lg text-neutral-400">
+                  {selectedVenue.address}
+                </p>
+              )}
               <div className="flex items-center gap-2 mt-1">
-                <Star />{" "}
+                <Star />
                 <span className="text-sm text-neutral-300">
-                  4.8 • 214 reviews
+                  {(selectedVenue?.averageRating ?? 4.8).toFixed(1)} •{" "}
+                  {reviewsArr.length} reviews
                 </span>
               </div>
             </div>
 
             <div className="flex flex-col items-end">
-              <h1 className="text-3xl font-semibold">₹500</h1>
+              <h1 className="text-3xl font-semibold">
+                ₹{selectedVenue?.price ?? "—"}
+              </h1>
               <p className="text-base text-neutral-400">Per Night</p>
               <button className="mt-3 px-3 py-1 rounded-full bg-emerald-500/30 text-sm">
                 Publish
@@ -129,41 +183,26 @@ const OwnerVenueDetails = ({
           <div>
             <h3 className="text-lg font-semibold">Description</h3>
             <p className="text-base text-neutral-200 mt-2">
-              Located in Ranchi's heart, Mount View offers luxury and comfort.
-              It features 2 banquet halls, rooftop pool, and modern amenities.
+              {selectedVenue?.description ?? "Description"}
             </p>
           </div>
 
-          {/* Accommodation */}
-          <div className="mt-4 border-t border-neutral-700 pt-4">
-            <h1 className="text-base text-neutral-400 font-semibold">
-              Accommodation
-            </h1>
-            <div className="grid grid-cols-2 gap-2 mt-2">
-              <div className="flex gap-3 text-xl items-center">
-                <span className="bg-neutral-500/50 p-2 rounded-full">
-                  <BedDouble />
-                </span>
-                50 Rooms
-              </div>
-              <div className="flex gap-3 text-xl items-center">
-                <span className="bg-neutral-500/50 p-2 rounded-full">
-                  <Landmark />
-                </span>
-                2 Event Halls
-              </div>
-              <div className="flex gap-3 text-xl items-center">
-                <span className="bg-neutral-500/50 p-2 rounded-full">
-                  <Wifi />
-                </span>
-                Free WiFi
-              </div>
-              <div className="flex gap-3 text-xl items-center">
-                <span className="bg-neutral-500/50 p-2 rounded-full">
-                  <Utensils />
-                </span>
-                1 Dining Area
-              </div>
+          {/* Amenities */}
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold">Amenities</h3>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {amenitiesArr.length > 0 ? (
+                amenitiesArr.map((a) => (
+                  <span
+                    key={a}
+                    className="px-3 py-1 rounded-full bg-neutral-800/40 text-sm"
+                  >
+                    {a}
+                  </span>
+                ))
+              ) : (
+                <div className="text-neutral-400">No amenities listed</div>
+              )}
             </div>
           </div>
 
@@ -171,11 +210,13 @@ const OwnerVenueDetails = ({
           <div className="mt-6 grid grid-cols-3 gap-3">
             <div className="bg-neutral-800/50 p-4 rounded-2xl">
               <h1 className="text-sm font-semibold">Avg Rating</h1>
-              <p className="text-2xl font-semibold">4.8</p>
+              <p className="text-2xl font-semibold">
+                {(selectedVenue?.averageRating ?? 4.8).toFixed(1)}
+              </p>
             </div>
             <div className="bg-neutral-800/50 p-4 rounded-2xl">
               <h1 className="text-sm font-semibold">Upcoming Events</h1>
-              <p className="text-2xl font-semibold">{bookings.length}</p>
+              <p className="text-2xl font-semibold">{bookingsArr.length}</p>
             </div>
             <div className="bg-neutral-800/50 p-4 rounded-2xl">
               <h1 className="text-sm font-semibold">Occupancy</h1>
@@ -191,19 +232,21 @@ const OwnerVenueDetails = ({
             </div>
 
             <div className="mt-3 space-y-3">
-              {bookings.map((b) => (
+              {bookingsArr.map((b) => (
                 <div
-                  key={b.id}
+                  key={b.id ?? b._id}
                   className="flex items-center justify-between bg-neutral-900/30 p-3 rounded-lg"
                 >
                   <div>
-                    <p className="font-medium">{b.name}</p>
+                    <p className="font-medium">{b.name ?? "Guest"}</p>
                     <p className="text-sm text-neutral-400">
-                      {b.date} · {b.pax} pax
+                      {b.date} · {b.pax ?? "—"} pax
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm font-semibold">{b.status}</p>
+                    <p className="text-sm font-semibold">
+                      {b.status ?? "Pending"}
+                    </p>
                     <div className="mt-2 flex gap-2">
                       <button className="px-3 py-1 rounded-md bg-emerald-600/30 text-sm">
                         Confirm
@@ -215,6 +258,9 @@ const OwnerVenueDetails = ({
                   </div>
                 </div>
               ))}
+              {bookingsArr.length === 0 && (
+                <div className="text-neutral-400 p-3">No upcoming bookings</div>
+              )}
             </div>
           </div>
 
@@ -227,26 +273,11 @@ const OwnerVenueDetails = ({
             </div>
           </div>
 
-          {/* Amenities */}
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold">Amenities</h3>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {amenities.map((a) => (
-                <span
-                  key={a}
-                  className="px-3 py-1 rounded-full bg-neutral-800/40 text-sm"
-                >
-                  {a}
-                </span>
-              ))}
-            </div>
-          </div>
-
           {/* Gallery grid */}
           <div className="mt-6">
             <h3 className="text-lg font-semibold">Gallery</h3>
             <div className="mt-3 grid grid-cols-3 gap-2">
-              {images.slice(0, 6).map((src, i) => (
+              {imagesArr.slice(0, 6).map((src, i) => (
                 <img
                   key={i}
                   src={src}
@@ -266,24 +297,35 @@ const OwnerVenueDetails = ({
           <div className="mt-6 pb-6">
             <h3 className="text-lg font-semibold">Recent Reviews</h3>
             <div className="mt-3 space-y-3">
-              {reviews.map((r) => (
-                <div key={r.id} className="bg-neutral-900/30 p-3 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-medium">{r.user}</p>
-                      <p className="text-sm text-neutral-400">
-                        {"★".repeat(r.rating)}
-                      </p>
+              {reviewsArr.length > 0 ? (
+                reviewsArr.map((r) => (
+                  <div
+                    key={r.id ?? r._id}
+                    className="bg-neutral-900/30 p-3 rounded-lg"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-medium">
+                          {r.user ?? r.name ?? "User"}
+                        </p>
+                        <p className="text-sm text-neutral-400">
+                          {"★".repeat(r.rating ?? 0)}
+                        </p>
+                      </div>
+                      <div className="text-sm text-neutral-400">
+                        {r.when ?? "2 weeks ago"}
+                      </div>
                     </div>
-                    <div className="text-sm text-neutral-400">2 weeks ago</div>
+                    <p className="mt-2 text-neutral-300 text-sm">{r.text}</p>
                   </div>
-                  <p className="mt-2 text-neutral-300 text-sm">{r.text}</p>
-                </div>
-              ))}
+                ))
+              ) : (
+                <div className="text-neutral-400 p-3">No reviews yet</div>
+              )}
             </div>
           </div>
         </div>
-        <div className="h-16 w-full"></div>
+        <div className="h-16 w-full" />
       </div>
     </div>
   );

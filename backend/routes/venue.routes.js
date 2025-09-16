@@ -5,12 +5,15 @@ const {
   getVenues,
   updateVenue,
   deleteVenues,
+  getVenueDetails,
 } = require("../controllers/venue.controller");
 const { authOwner } = require("../middlewares/auth.middleware");
 
 // POST /api/venues
 router.post("/create", authOwner, createVenue);
 router.get("/get", authOwner, getVenues);
+
+router.get("/get/:id", authOwner, getVenueDetails);
 router.put("/update/:id", authOwner, updateVenue);
 router.delete("/delete/:id", authOwner, deleteVenues);
 
