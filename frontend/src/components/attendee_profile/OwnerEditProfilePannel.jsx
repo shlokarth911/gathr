@@ -1,5 +1,6 @@
 import { Check, ChevronUp } from "lucide-react";
 import React, { useState } from "react";
+import { updateOwnerProfile } from "../../api/ownerApi";
 
 const OwnerEditProfilePannel = ({ setEditOwnerProfile }) => {
   const [name, setName] = useState("");
@@ -9,11 +10,19 @@ const OwnerEditProfilePannel = ({ setEditOwnerProfile }) => {
   const submitHandler = (e) => {
     e.preventDefault();
 
+    if (!name || !email || !phoneNumber) {
+      alert("Please fill all the fields");
+      return;
+    }
+
     const ownerData = {
       name,
       email,
       phoneNumber,
     };
+
+    updateOwnerProfile(ownerData);
+    setEditOwnerProfile(false);
 
     console.log(ownerData);
   };

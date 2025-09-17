@@ -14,6 +14,7 @@ router.post("/create", authOwner, createVenue);
 router.get("/get", authOwner, getVenues);
 
 router.get("/get/:id", authOwner, getVenueDetails);
+
 router.put("/update/:id", authOwner, updateVenue);
 router.delete("/delete/:id", authOwner, deleteVenues);
 

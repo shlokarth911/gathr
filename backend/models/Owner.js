@@ -18,6 +18,12 @@ const ownerSchema = new Schema({
     select: false,
   },
 
+  phoneNumber: {
+    type: Number,
+    required: false,
+    unique: true,
+  },
+
   owningVenues: [
     {
       type: mongoose.Schema.Types.ObjectId,

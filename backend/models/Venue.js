@@ -53,11 +53,32 @@ const venueSchema = new Schema({
     required: true,
   },
 
-  bookedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Attendee",
-    required: false,
-  },
+  bookings: [
+    {
+      attendee: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Attendee",
+        required: true,
+      },
+      date: {
+        type: Date,
+        required: true,
+      },
+      pax: {
+        type: Number,
+        required: true,
+      },
+      status: {
+        type: String,
+        enum: ["confirmed", "pending", "cancelled"],
+        default: "pending",
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 });
 
 module.exports = mongoose.model("Venue", venueSchema);

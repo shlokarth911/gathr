@@ -29,7 +29,7 @@ const OwnerVenueDetails = ({
   };
 
   const imagesArr =
-    normalizeImages(selectedVenue?.images ?? fallbackImages) || [];
+    normalizeImages((selectedVenue?.img ?? fallbackImages) || []) || [];
 
   const amenitiesArr = selectedVenue?.amenities ?? fallbackAmenities ?? [];
   const bookingsArr = selectedVenue?.bookings ?? fallbackBookings ?? [];

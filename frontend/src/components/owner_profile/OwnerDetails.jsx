@@ -1,7 +1,10 @@
 import { Star } from "lucide-react";
-import React from "react";
+import React, { useContext } from "react";
+import { OwnerDataContext } from "../../contexts/OwnerContext";
 
 const OwnerDetails = () => {
+  const { owner } = useContext(OwnerDataContext);
+
   return (
     <div className="p-5">
       <div className="flex items-center justify-center ">
@@ -15,17 +18,17 @@ const OwnerDetails = () => {
       <div className="bg-neutral-700/30 rounded-2xl p-5 mt-4 flex flex-col gap-4">
         <div>
           <h2 className="text-sm text-neutral-400">Name </h2>
-          <h1 className="text-xl ">Jhon Doe</h1>
+          <h1 className="text-xl ">{owner?.name || "Not Defined"}</h1>
         </div>
 
         <div>
           <h2 className="text-sm text-neutral-400">Email</h2>
-          <h1 className="text-xl ">email@email.com</h1>
+          <h1 className="text-xl ">{owner?.email || "Not Defined"}</h1>
         </div>
 
         <div>
           <h2 className="text-sm text-neutral-400">Phone</h2>
-          <h1 className="text-xl ">XXX-XXX-XXXX</h1>
+          <h1 className="text-xl ">{owner?.phoneNumber || "Not Defined"}</h1>
         </div>
       </div>
     </div>

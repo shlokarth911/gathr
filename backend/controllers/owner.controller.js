@@ -2,6 +2,8 @@ const Owner = require("../models/Owner");
 const bcrypt = require("bcrypt");
 const { createOwner } = require("../services/owner.service");
 const jwt = require("jsonwebtoken");
+const Attendee = require("../models/Attendee");
+const Venue = require("../models/Venue");
 
 module.exports.register = async (req, res) => {
   try {
@@ -89,11 +91,40 @@ module.exports.login = async (req, res) => {
 };
 
 module.exports.getOwnerProfile = (req, res, next) => {
-  res.status(200).json(req.attendee);
+  res.status(200).json(req.owner);
+};
+
+module.exports.updateOwnerProfile = async (req, res) => {
+  try {
+    // Use req.attendee._id instead of req.user.id
+    const updated = await Owner.findByIdAndUpdate(req.owner._id, req.body, {
+      new: true,
+    });
+    res.json(updated);
+  } catch (err) {
+    res.status(500).json({ error: "Update failed" });
+  }
 };
 
 module.exports.logout = (req, res, next) => {
   res.clearCookie("owner_token");
 
   res.status(200).json({ message: "Logged out Successfully" });
+};
+
+module.exports.listBookedAttendees = async (req, res) => {
+  try {
+    const ownerId = req.owner._id;
+
+    const venues = await Venue.find({ owner: ownerId });
+    const venueIds = venues.map((venue) => venue._id);
+
+    const attendees = await Attendee.find({
+      "bookings.venue": { $in: venueIds },
+    });
+    res.status(200).json({ success: true, attendees });
+  } catch (error) {
+    console.log(`Error in venuecontroller listBookedAttendees ${error}`);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 };

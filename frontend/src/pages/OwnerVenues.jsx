@@ -116,7 +116,6 @@ const OwnerVenues = () => {
           setSelectedVenueData(null);
           return;
         }
-        console.log(venue);
         setSelectedVenueData(venue);
 
         setIsOwnerVenueDetailsOpen(true);

@@ -1,35 +1,22 @@
-import React, { useRef, useState } from "react";
-import BookedAttendeePannel from "../components/owner_bookings/BookedAttendeePannel";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import BookingCard from "../components/owner_bookings/BookingCard";
+import BookedAttendeePannel from "../components/owner_bookings/BookedAttendeePannel";
+import { listBookings } from "../api/ownerApi";
 
 const OwnerBookings = () => {
-  //state variables
+  // state variables
   const [mainScreen, setMainScreen] = useState(false);
   const [bookedAttendeePannel, setBookedAttendeePannel] = useState(false);
+  const [bookingsData, setBookingsData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  //ref variables
+  // refs
   const bookedAttendeePannelRef = useRef(null);
   const mainScreenRef = useRef(null);
 
-  const bookings = [
-    {
-      avatar:
-        "https://lh3.googleusercontent.com/Ej74BaoxGgz_NWcUIhnlwlHH_wBBN54vGnzSbalds41OAylbsOxC2BNqJubYYsp_JQkkaD9g4-IKVJQ=w544-h544-l90-rj",
-      name: "John Doe",
-      venue: "The grand hall",
-      status: "Pending",
-    },
-    {
-      avatar:
-        "https://lh3.googleusercontent.com/Ej74BaoxGgz_NWcUIhnlwlHH_wBBN54vGnzSbalds41OAylbsOxC2BNqJubYYsp_JQkkaD9g4-IKVJQ=w544-h544-l90-rj",
-      name: "John Doe",
-      venue: "The grand hall",
-      status: "Pending",
-    },
-  ];
-
+  // animations for attendee panel
   useGSAP(() => {
     if (bookedAttendeePannel) {
       gsap.to(bookedAttendeePannelRef.current, {
@@ -46,6 +33,7 @@ const OwnerBookings = () => {
     }
   }, [bookedAttendeePannel]);
 
+  // animations for main screen
   useGSAP(() => {
     if (mainScreen) {
       gsap.to(mainScreenRef.current, {
@@ -64,18 +52,54 @@ const OwnerBookings = () => {
     }
   }, [mainScreen]);
 
+  // close panel & reset main screen
   const mainScreenClickHandler = () => {
-    if (mainScreen) {
-      setMainScreen(false);
-    }
-
-    if (bookedAttendeePannel) {
-      setBookedAttendeePannel(false);
-    }
+    setMainScreen(false);
+    setBookedAttendeePannel(false);
   };
 
+  // fetch bookings on mount
+  useEffect(() => {
+    const fetchBookings = async () => {
+      try {
+        const res = await listBookings();
+        setBookingsData(res);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+        setBookingsData({ attendees: [] }); // fallback
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBookings();
+  }, []);
+
+  // LOADING UI
+  if (loading) {
+    return (
+      <div className="p-4 min-h-screen flex items-center justify-center">
+        <p className="text-lg font-medium">Loading bookings...</p>
+      </div>
+    );
+  }
+
+  // EMPTY STATE UI
+  if (!bookingsData || bookingsData.attendees.length === 0) {
+    return (
+      <div className="p-4 min-h-screen">
+        <h1 className="text-xl font-bold">Bookings</h1>
+        <div className="mt-4 flex gap-4 flex-col">
+          <p>No bookings found.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // MAIN UI
   return (
     <div>
+      {/* main screen */}
       <div
         ref={mainScreenRef}
         onClick={mainScreenClickHandler}
@@ -84,18 +108,17 @@ const OwnerBookings = () => {
         <h1 className="text-xl font-bold">Bookings</h1>
         <div className="mt-4 flex gap-4 flex-col">
           <BookingCard
-            bookings={bookings}
+            bookings={bookingsData.attendees}
             setMainScreen={setMainScreen}
             setBookedAttendeePannel={setBookedAttendeePannel}
           />
         </div>
       </div>
 
+      {/* attendee panel */}
       <div
         ref={bookedAttendeePannelRef}
-        style={{
-          transform: "translateY(100%)",
-        }}
+        style={{ transform: "translateY(100%)" }}
         className="fixed left-0 bottom-0 z-10 w-full"
       >
         <BookedAttendeePannel
