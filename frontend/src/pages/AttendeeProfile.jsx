@@ -1,65 +1,92 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AttendeeDataContext } from "../contexts/AttendeeContext";
-import axios from "axios";
 import ProfileHeader from "../components/attendee_profile/ProfileHeader";
-import AvatarSection from "../components/attendee_profile/AvatarSection";
-import ProfileForm from "../components/attendee_profile/ProfileForm";
-import ActionButtons from "../components/attendee_profile/ActionButtons";
-import QuickLinks from "../components/attendee_profile/QuickLinks";
+import AttendeeActions from "../components/attendee_profile/AttendeeActions";
+import AttendeeDetails from "../components/attendee_profile/AttendeeDetails";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import AttendeeEditProfilePannel from "../components/attendee_profile/AttendeeEditProfilePannel";
+import { fetchAttedeeProfile } from "../api/attendeeApi";
 
 const AttendeeProfile = () => {
   const navigate = useNavigate();
-  const { attendee, setAttendee } = useContext(AttendeeDataContext);
+  const { setAttendee } = useContext(AttendeeDataContext);
 
-  const defaultUser = { name: "User" }; // keep your default
+  const editAttendeeProfileRef = useRef(null);
+  const mainScreenRef = useRef(null);
+  const [mainScreen, setMainScreen] = useState(true);
+  const [editAttendeeProfile, setEditAttendeeProfile] = useState(false);
 
-  const [user, setUser] = useState(attendee || defaultUser);
-  const [editing, setEditing] = useState(false);
-  const [form, setForm] = useState({ ...user });
-  const [saving] = useState(false);
-
-  const rootRef = useRef(null);
-  const avatarRef = useRef(null);
-
-  // fetch profile from backend (same as before)...
-
-  const uploadAvatar = (file) => {
-    const url = URL.createObjectURL(file);
-    setUser((u) => ({ ...u, avatar: url }));
-    setForm((f) => ({ ...f, avatar: url }));
-  };
-
-  const saveProfile = async () => {
-    try {
-      const token = localStorage.getItem("attendee_token");
-      if (!token) {
-        alert("Not logged in!");
-        return;
-      }
-
-      // Make API call to update profile
-      const res = await axios.put(
-        "http://localhost:5000/attendee/profile",
-        form, // sending the updated form data
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      // If successful, update both local state and context
-      setUser(res.data); // update local UI
-      setAttendee(res.data); // update context
-      setEditing(false);
-      alert("Profile updated successfully ✅");
-    } catch (err) {
-      console.error("Error updating profile:", err);
-      alert("Failed to update profile. Please try again.");
+  useGSAP(() => {
+    if (editAttendeeProfile) {
+      gsap.to(editAttendeeProfileRef.current, {
+        y: 0,
+        duration: 0.8,
+        ease: "expo.inOut",
+      });
+    } else {
+      gsap.to(editAttendeeProfileRef.current, {
+        y: "100%",
+        duration: 0.8,
+        ease: "expo.inOut",
+      });
     }
-  };
+  }, [editAttendeeProfile]);
+
+  useGSAP(() => {
+    if (editAttendeeProfile) {
+      gsap.to(mainScreenRef.current, {
+        scale: 0.95,
+        duration: 0.8,
+        opacity: 0.5,
+        ease: "expo.inOut",
+      });
+
+      setMainScreen(false);
+    } else {
+      gsap.to(mainScreenRef.current, {
+        scale: 1,
+        duration: 0.8,
+        opacity: 1,
+        ease: "expo.inOut",
+      });
+
+      setMainScreen(true);
+    }
+  }, [editAttendeeProfile]);
+
+  useGSAP(() => {
+    if (mainScreen) {
+      gsap.to(mainScreenRef.current, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        ease: "expo.inOut",
+      });
+    } else {
+      gsap.to(mainScreenRef.current, {
+        opacity: 0.5,
+        scale: 0.95,
+        duration: 0.8,
+        ease: "expo.inOut",
+      });
+    }
+  }, [mainScreen]);
+
+  useEffect(() => {
+    const getAttendeeProfile = async () => {
+      try {
+        const data = await fetchAttedeeProfile();
+        setAttendee(data);
+      } catch (error) {
+        console.log("Error fetching attendee profile:", error);
+      }
+    };
+
+    getAttendeeProfile();
+  }, [setAttendee]);
+
   const signOut = () => {
     localStorage.removeItem("attendee_token");
     setAttendee({});
@@ -67,32 +94,31 @@ const AttendeeProfile = () => {
   };
 
   return (
-    <main
-      ref={rootRef}
-      className="min-h-screen bg-neutral-900 text-white px-4 pb-24 pt-3"
-    >
-      <ProfileHeader onEdit={() => setEditing(!editing)} editing={editing} />
-      <AvatarSection
-        user={user}
-        avatarRef={avatarRef}
-        uploadAvatar={uploadAvatar}
-      />
-      <ProfileForm
-        form={form}
-        onChangeField={(k, v) => setForm({ ...form, [k]: v })}
-        editing={editing}
-      />
-      <ActionButtons
-        editing={editing}
-        saveProfile={saveProfile}
-        saving={saving}
-        setEditing={setEditing}
-        setForm={setForm}
-        user={user}
-        navigate={navigate}
-      />
-      <QuickLinks navigate={navigate} signOut={signOut} />
+    <main>
+      <div
+        onClick={() => {
+          if (editAttendeeProfile) setEditAttendeeProfile(false);
+        }}
+        ref={mainScreenRef}
+      >
+        <ProfileHeader setEditAttendeeProfile={setEditAttendeeProfile} />
+
+        {/* Attndee Details */}
+        <AttendeeDetails />
+
+        <AttendeeActions signOut={signOut} />
+      </div>
+
       <div className="h-32" />
+
+      <div
+        ref={editAttendeeProfileRef}
+        className="fixed bottom-0 z-20 w-full transform -translate-y-[-100%]"
+      >
+        <AttendeeEditProfilePannel
+          setEditAttendeeProfile={setEditAttendeeProfile}
+        />
+      </div>
     </main>
   );
 };

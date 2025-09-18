@@ -1,44 +1,48 @@
 import { Check, ChevronUp } from "lucide-react";
 import React, { useState } from "react";
-import { updateOwnerProfile } from "../../api/ownerApi";
+import { updateAttendeeProfile } from "../../api/attendeeApi";
 
-const OwnerEditProfilePannel = ({ setEditOwnerProfile }) => {
+const AttendeeEditProfilePannel = ({ setEditAttendeeProfile }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const submitHandler = (e) => {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    if (!name || !email || !phoneNumber) {
-      alert("Please fill all the fields");
-      return;
+      if (!name || !email || !phoneNumber) {
+        alert("Please fill all the fields");
+        return;
+      }
+
+      const attendeeData = {
+        name,
+        email,
+        phoneNumber,
+      };
+
+      updateAttendeeProfile(attendeeData);
+      setEditAttendeeProfile(false);
+      alert("Profile Updated Successfully");
+    } catch (error) {
+      console.log(`Error in updating profile: ${error}`);
     }
-
-    const ownerData = {
-      name,
-      email,
-      phoneNumber,
-    };
-
-    updateOwnerProfile(ownerData);
-    setEditOwnerProfile(false);
-
-    console.log(ownerData);
   };
 
   return (
     <div>
       <div className="bg-neutral-950/50 w-full p-6 rounded-t-4xl backdrop-blur-xl">
-        <div className="w-full items-center justify-center flex">
-          <ChevronUp
-            onClick={() => {
-              setEditOwnerProfile(false);
-            }}
-            size={28}
-          />
+        <div
+          onClick={() => {
+            setEditAttendeeProfile(false);
+          }}
+          className="w-full items-center justify-center flex"
+        >
+          <ChevronUp size={28} />
         </div>
         <h1 className="text-lg  font-semibold">Edit Your Profile</h1>
+
         <form onSubmit={submitHandler} className="mt-4 flex flex-col gap-4 ">
           <div>
             <p className="text-sm ml-2 text-neutral-400">Name</p>
@@ -89,4 +93,4 @@ const OwnerEditProfilePannel = ({ setEditOwnerProfile }) => {
   );
 };
 
-export default OwnerEditProfilePannel;
+export default AttendeeEditProfilePannel;

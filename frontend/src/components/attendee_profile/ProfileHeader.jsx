@@ -1,35 +1,26 @@
-import { ArrowLeft, Edit3 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { ArrowLeft, Edit3, Pencil } from "lucide-react";
 
-const ProfileHeader = ({ onEdit }) => {
-  const navigate = useNavigate();
+const ProfileHeader = ({ setEditAttendeeProfile }) => {
   return (
-    <div className="flex items-center gap-3">
-      <button
-        aria-label="Back"
-        onClick={() => navigate(-1)}
-        className="p-2 rounded-lg bg-white/4"
-        style={{ backdropFilter: "blur(6px)" }}
-      >
-        <ArrowLeft size={18} />
-      </button>
+    <>
+      <div className="p-6 flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-semibold">Profile</h2>
+          <p className="text-sm text-neutral-400">
+            Manage your account and settings
+          </p>
+        </div>
 
-      <div className="flex-1">
-        <h1 className="text-lg font-semibold">Profile</h1>
-        <p className="text-xs text-neutral-400">
-          Manage your account & settings
-        </p>
+        <div
+          onClick={() => {
+            setEditAttendeeProfile(true);
+          }}
+          className="p-3 rounded-full bg-white/20"
+        >
+          <Pencil size={20} />
+        </div>
       </div>
-
-      <button
-        aria-label="Edit profile"
-        onClick={onEdit}
-        className="p-2 rounded-lg bg-white/4"
-        title="Edit"
-      >
-        <Edit3 size={16} />
-      </button>
-    </div>
+    </>
   );
 };
 

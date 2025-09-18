@@ -1,4 +1,3 @@
-// src/api/venueApi.js (corrected)
 import axios from "axios";
 
 const API_BASE = import.meta.env.VITE_BASE_URL || "";

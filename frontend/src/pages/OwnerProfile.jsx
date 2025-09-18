@@ -3,9 +3,9 @@ import { useGSAP } from "@gsap/react";
 
 import OwnerProfileHeader from "../components/owner_profile/OwnerProfileHeader";
 import OwnerDetails from "../components/owner_profile/OwnerDetails";
-import OwnerStats from "../components/attendee_profile/OwnerStats";
-import OwnerActions from "../components/attendee_profile/OwnerActions";
-import OwnerEditProfilePannel from "../components/attendee_profile/OwnerEditProfilePannel";
+import OwnerStats from "../components/owner_profile/OwnerStats";
+import OwnerActions from "../components/owner_profile/OwnerActions";
+import OwnerEditProfilePannel from "../components/owner_profile/OwnerEditProfilePannel";
 import { useNavigate } from "react-router-dom";
 import { OwnerDataContext } from "../contexts/OwnerContext";
 import gsap from "gsap";

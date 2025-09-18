@@ -2,7 +2,7 @@ import { ArrowRight, Plus, Star } from "lucide-react";
 import React from "react";
 import { Link } from "react-router-dom";
 
-const OwnerVenues = ({ ownedVenues }) => {
+const OwnerVenues = ({ venuesData }) => {
   return (
     <div className="px-7 py-4">
       {/* Header */}
@@ -34,7 +34,7 @@ const OwnerVenues = ({ ownedVenues }) => {
           }}
         >
           {/* Venue Cards */}
-          {ownedVenues.map((venue, idx) => {
+          {venuesData.map((venue, idx) => {
             const rating = venue.averageRating;
             let starColor = "#fff";
 
@@ -51,7 +51,7 @@ const OwnerVenues = ({ ownedVenues }) => {
                 style={{ scrollSnapAlign: "start", scrollSnapStop: "always" }}
               >
                 <img
-                  src={venue.img}
+                  src={venue.img.url}
                   alt={venue.name}
                   className="h-44 w-full object-cover"
                 />

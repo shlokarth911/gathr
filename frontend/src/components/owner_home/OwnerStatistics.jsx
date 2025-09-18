@@ -49,6 +49,8 @@ function buildSparklinePath(values, width = 240, height = 48, padding = 4) {
 }
 
 export default function OwnerStatistics({
+  venuesData,
+
   stats = {
     avgRating: 4.7,
     totalBookings: 27,
@@ -118,7 +120,7 @@ export default function OwnerStatistics({
                 Average Rating
               </h2>
               <p className="mt-2 flex items-center gap-2 text-2xl font-bold">
-                <span>{Number(stats.avgRating || 0).toFixed(1)}</span>
+                <span>{Number(venuesData.averageRating || 0).toFixed(1)}</span>
                 <Star fill="#FFD166" color="#FFD166" size={18} />
               </p>
             </div>
