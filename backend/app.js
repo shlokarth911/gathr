@@ -25,7 +25,9 @@ app.use(
 const attendeeRoutes = require("./routes/attendee.routes.js");
 const ownerRoutes = require("./routes/owner.routes.js");
 const venueRoutes = require("./routes/venue.routes.js");
+const bookingRoutes = require("./routes/booking.routes.js");
 
+app.use("/booking", bookingRoutes);
 app.use("/attendee", attendeeRoutes);
 app.use("/owner", ownerRoutes);
 app.use("/venue", venueRoutes);
