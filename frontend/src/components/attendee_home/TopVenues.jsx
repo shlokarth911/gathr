@@ -4,21 +4,19 @@ import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 
-/**
- * TopVenues
- * - Minor visual redesign: consistent card widths, fixed image aspect, nicer shadows
- * - Proper snap behavior and keyboard-focusable cards
- * - Subtle frosted arrow affordance on the right
- * - GSAP entrance animation (respects prefers-reduced-motion)
- *
- * Notes:
- * - Keeps your original data contract: topPickedVenues = [{ id?, name, address, image, price }]
- * - I didn't add new UI features — only polished spacing & animations.
- */
-
-const TopVenues = ({ topPickedVenues = [] }) => {
+const TopVenues = ({
+  topPickedVenues = [],
+  venues,
+  setSelectedVenue,
+  setIsAttendeeVenueDetailsOpen,
+}) => {
   const rowRef = useRef(null);
   const rootRef = useRef(null);
+
+  const handleCardClick = (venue) => {
+    setSelectedVenue(venue);
+    setIsAttendeeVenueDetailsOpen(true);
+  };
 
   const prefersReducedMotion =
     typeof window !== "undefined" &&
@@ -84,7 +82,7 @@ const TopVenues = ({ topPickedVenues = [] }) => {
           `}</style>
 
           <div className="top-venues-row flex gap-4">
-            {topPickedVenues.map((venue, idx) => {
+            {venues.map((venue, idx) => {
               // use Link if venue has id so it is keyboard-focusable and navigable
               const CardTag = venue.id ? Link : "div";
               const cardProps = venue.id
@@ -97,6 +95,7 @@ const TopVenues = ({ topPickedVenues = [] }) => {
                   key={idx}
                   className="top-venue-card snap-start shrink-0 min-w-[200px] max-w-[220px] bg-neutral-800/80 flex flex-col rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.45)] focus:outline-none focus:ring-2 focus:ring-[#43ff1d]/40"
                   style={{ textDecoration: "none" }}
+                  onClick={() => handleCardClick(venue)}
                 >
                   {/* Image — consistent aspect ratio, object-cover so no overflow */}
                   <div className="w-full h-40 rounded-t-2xl overflow-hidden ">

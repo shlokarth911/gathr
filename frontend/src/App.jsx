@@ -18,6 +18,7 @@ import OwnerBookings from "./pages/OwnerBookings";
 import OwnerVenues from "./pages/OwnerVenues";
 import OwnerProfile from "./pages/OwnerProfile";
 import AttendeeBookings from "./pages/AttendeeBookings";
+import AttendeeVenues from "./pages/AttendeeVenues";
 
 const App = () => {
   return (
@@ -41,8 +42,8 @@ const App = () => {
           >
             <Route path="home" element={<AtendeeHome />} />
             <Route path="profile" element={<AttendeeProfile />} />
+            <Route path="venues" element={<AttendeeVenues />} />
             <Route path="bookings" element={<AttendeeBookings />} />
-            {/* Add other attendee pages here */}
           </Route>
 
           <Route

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 
 import { Beer, Brush, Gem, Guitar, MicVocal, Music2, Wand } from "lucide-react";
 
@@ -12,6 +12,9 @@ import ReviewsSection from "../components/attendee_home/ReviewsSection";
 import HowItWorks from "../components/attendee_home/HowItWorks";
 import FAQSection from "../components/attendee_home/FAQSection";
 import { AttendeeDataContext } from "../contexts/AttendeeContext";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import AttendeeVenueDetails from "../components/attendee_venues/AttendeeVenueDetails";
 
 const AtendeeHome = () => {
   const { attendee } = useContext(AttendeeDataContext);
@@ -35,7 +38,7 @@ const AtendeeHome = () => {
     },
   ];
 
-  const topPickedVenues = [
+  const venues = [
     {
       name: "Mount View",
       address: "Ranchi",
@@ -120,6 +123,32 @@ const AtendeeHome = () => {
     },
   ];
 
+  const attendeeVenueDetailsRef = useRef(null);
+
+  const [isAttendeeVenueDetailsOpen, setIsAttendeeVenueDetailsOpen] =
+    useState(false);
+  const [selectedVenue, setSelectedVenue] = useState(null);
+
+  useGSAP(() => {
+    if (isAttendeeVenueDetailsOpen) {
+      gsap.to(attendeeVenueDetailsRef.current, {
+        x: 0,
+        duration: 0.5,
+        ease: "expo.inOut",
+      });
+    } else {
+      gsap.to(attendeeVenueDetailsRef.current, {
+        x: "100%",
+        duration: 0.5,
+        ease: "expo.inOut",
+      });
+    }
+  }, [isAttendeeVenueDetailsOpen]);
+
+  const handleClosePanel = () => {
+    setIsAttendeeVenueDetailsOpen(false);
+  };
+
   return (
     <main className="bg-neutral-900 min-h-screen text-white">
       {/* Header */}
@@ -132,7 +161,11 @@ const AtendeeHome = () => {
       <CategoriesSection categories={categories} />
 
       {/* Top Picked Venues */}
-      <TopVenues topPickedVenues={topPickedVenues} />
+      <TopVenues
+        setSelectedVenue={setSelectedVenue}
+        setIsAttendeeVenueDetailsOpen={setIsAttendeeVenueDetailsOpen}
+        venues={venues}
+      />
 
       {/* Caterers */}
       <TopCaterers topCaterers={topCaterers} />
@@ -145,6 +178,16 @@ const AtendeeHome = () => {
 
       {/* How it works */}
       <HowItWorks />
+
+      <div
+        className="fixed top-0 right-0 w-full md:w-1/2 lg:w-1/3 h-full bg-neutral-800 shadow-lg z-50 transform translate-x-full"
+        ref={attendeeVenueDetailsRef}
+      >
+        <AttendeeVenueDetails
+          setIsAttendeeVenueDetailsOpen={handleClosePanel}
+          selectedVenue={selectedVenue}
+        />
+      </div>
 
       {/* FaQs */}
       <FAQSection faqs={faqs} />
