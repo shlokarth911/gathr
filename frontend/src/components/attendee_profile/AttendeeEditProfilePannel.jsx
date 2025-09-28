@@ -6,12 +6,13 @@ const AttendeeEditProfilePannel = ({ setEditAttendeeProfile }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [city, setCity] = useState("");
 
   const submitHandler = (e) => {
     try {
       e.preventDefault();
 
-      if (!name || !email || !phoneNumber) {
+      if (!name || !email || !phoneNumber || !city) {
         alert("Please fill all the fields");
         return;
       }
@@ -20,6 +21,7 @@ const AttendeeEditProfilePannel = ({ setEditAttendeeProfile }) => {
         name,
         email,
         phoneNumber,
+        city,
       };
 
       updateAttendeeProfile(attendeeData);
@@ -29,6 +31,8 @@ const AttendeeEditProfilePannel = ({ setEditAttendeeProfile }) => {
       console.log(`Error in updating profile: ${error}`);
     }
   };
+
+  const cities = ["New York", "Los Angeles", "Chicago", "Houston", "Miami"];
 
   return (
     <div>
@@ -79,6 +83,26 @@ const AttendeeEditProfilePannel = ({ setEditAttendeeProfile }) => {
                 setPhoneNumber(e.target.value);
               }}
             />
+          </div>
+          <div>
+            <p className="text-sm ml-2 text-neutral-400">City</p>
+            <label htmlFor="city">
+              <select
+                id="city"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                className="w-full mt-2 py-3 px-4 rounded-xl bg-transparent text-white placeholder:text-neutral-400 outline-none border border-white/10"
+              >
+                <option className="bg-neutral-800" value="" disabled>
+                  Select your city
+                </option>
+                {cities.map((city) => (
+                  <option className="bg-neutral-800" key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
 
           <button>

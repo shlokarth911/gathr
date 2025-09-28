@@ -20,6 +20,7 @@ export const fetchAttedeeProfile = async () => {
       name: payload.name,
       email: payload.email,
       phoneNumber: payload.phoneNumber || "",
+      city: payload.city || "",
       _id: payload._id,
       bookings: payload.bookings || [],
     };
@@ -33,7 +34,7 @@ export const updateAttendeeProfile = async (attendeeData) => {
   try {
     const token = localStorage.getItem("attendee_token");
     const response = await axios.put(
-      `${API_BASE}/attendee/profile`,
+      `${API_BASE}/attendee/update`,
       attendeeData,
       {
         headers: {

@@ -31,6 +31,10 @@ const AttendeeDetails = () => {
             {attendee?.phoneNumber || "--- --- ----"}
           </h1>
         </div>
+        <div>
+          <h2 className="text-sm text-neutral-400">City</h2>
+          <h1 className="text-xl ">{attendee?.city || "Not Defined"}</h1>
+        </div>
       </div>
     </div>
   );

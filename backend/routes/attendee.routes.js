@@ -13,7 +13,7 @@ router.post("/register", register);
 router.post("/login", login);
 
 router.get("/profile", authAttendee, getAttendeeProfile);
-router.put("/profile", authAttendee, updateAttendeeProfile);
+router.put("/update", authAttendee, updateAttendeeProfile);
 
 router.get("/logout", authAttendee, logout);
 
