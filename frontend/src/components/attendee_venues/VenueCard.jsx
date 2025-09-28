@@ -9,13 +9,13 @@ const VenueCard = ({ venue, onClick }) => (
     onKeyPress={(e) => {
       if (e.key === "Enter") onClick();
     }}
-    className="bg-neutral-800 rounded-2xl shadow-xl overflow-hidden flex flex-col transition-transform hover:-translate-y-1 hover:shadow-2xl group"
+    className="bg-neutral-800 rounded-2xl shadow-xl overflow-hidden flex flex-col  hover:-translate-y-1 hover:shadow-2xl group  focus:opacity-80 focus:shadow-lg  cursor-pointer transition-all duration-300"
   >
     <div className="relative">
       <img
         src={venue.image}
         alt={venue.name}
-        className="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105"
+        className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
       />
     </div>
     <div className="p-5 flex flex-col flex-1 relative">
