@@ -107,6 +107,7 @@ const AttendeeVenues = () => {
     }
   }, [isSearchBarOpen]);
 
+  // TODO : Fetch cities from backend
   const cities = ["New York", "Los Angeles", "Chicago", "Houston", "Miami"];
 
   useEffect(() => {

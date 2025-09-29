@@ -37,7 +37,6 @@ const bookingSchema = new Schema({
 
   totalCost: {
     type: Number,
-    required: true,
   },
 
   isConfirmed: {

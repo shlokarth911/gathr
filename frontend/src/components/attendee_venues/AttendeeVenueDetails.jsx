@@ -10,6 +10,9 @@ import {
   Wifi,
   X,
 } from "lucide-react";
+import BookingRequestDialogue from "./BookingRequestDialogue";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 const AttendeeVenueDetails = ({
   selectedVenue = null,
@@ -21,7 +24,42 @@ const AttendeeVenueDetails = ({
 }) => {
   const containerRef = useRef(null);
   const slideRefs = useRef([]);
+  const bookingRequestRef = useRef(null);
+
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isDialogueOpen, setIsDialogueOpen] = useState(false);
+  const [showDialogue, setShowDialogue] = useState(false);
+
+  useEffect(() => {
+    if (isDialogueOpen) {
+      setShowDialogue(true);
+    } else if (bookingRequestRef.current) {
+      gsap.to(bookingRequestRef.current, {
+        opacity: 0,
+        scale: 0.95,
+        y: -60,
+        duration: 0.35,
+        ease: "power2.in",
+        onComplete: () => setShowDialogue(false),
+      });
+    }
+  }, [isDialogueOpen]);
+
+  useGSAP(() => {
+    if (showDialogue && bookingRequestRef.current) {
+      gsap.fromTo(
+        bookingRequestRef.current,
+        { opacity: 0, scale: 0.95, y: 60 },
+        {
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.35,
+          ease: "expo.out",
+        }
+      );
+    }
+  }, [showDialogue]);
 
   const normalizeImages = (imgArr) => {
     if (!Array.isArray(imgArr)) return [];
@@ -34,6 +72,7 @@ const AttendeeVenueDetails = ({
   const amenitiesArr = selectedVenue?.amenities ?? fallbackAmenities ?? [];
   const bookingsArr = selectedVenue?.bookings ?? fallbackBookings ?? [];
   const reviewsArr = selectedVenue?.reviews ?? fallbackReviews ?? [];
+  const venueId = selectedVenue?.id || selectedVenue?._id;
 
   const slides = imagesArr;
 
@@ -174,7 +213,10 @@ const AttendeeVenueDetails = ({
 
           {/* Add booking */}
           <div className="mt-6 flex w-full gap-3">
-            <button className="w-full  py-3 rounded-full text-base bg-emerald-600 text-white font-semibold">
+            <button
+              onClick={() => setIsDialogueOpen(true)}
+              className="w-full  py-3 rounded-full text-base bg-emerald-600 text-white font-semibold"
+            >
               Request booking
             </button>
             <button className="w-full  py-3 rounded-full text-base border border-neutral-200 text-white font-semibold">
@@ -233,8 +275,19 @@ const AttendeeVenueDetails = ({
             </div>
           </div>
         </div>
-        <div className="h-16 w-full" />
       </div>
+
+      {showDialogue && (
+        <div
+          ref={bookingRequestRef}
+          className="z-20 absolute  opacity-0 top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] w-[90%]"
+        >
+          <BookingRequestDialogue
+            selectedVenue={venueId}
+            setIsDialogueOpen={setIsDialogueOpen}
+          />
+        </div>
+      )}
     </div>
   );
 };
