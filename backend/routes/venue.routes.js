@@ -6,12 +6,14 @@ const {
   updateVenue,
   deleteVenues,
   getVenueDetails,
+  listVenuesByCity,
 } = require("../controllers/venue.controller");
-const { authOwner } = require("../middlewares/auth.middleware");
+const { authOwner, authAttendee } = require("../middlewares/auth.middleware");
 
 // POST /api/venues
 router.post("/create", authOwner, createVenue);
 router.get("/get", authOwner, getVenues);
+router.post("/list", authAttendee, listVenuesByCity);
 
 router.get("/get/:id", authOwner, getVenueDetails);
 

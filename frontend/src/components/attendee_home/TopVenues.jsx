@@ -49,7 +49,7 @@ const TopVenues = ({
 
         {/* See All link - keep semantics */}
         <Link
-          to="/venues"
+          to="/attendee/venues"
           className="text-sm flex gap-2 items-center text-neutral-300"
         >
           See All <ArrowRight size={18} />
@@ -100,7 +100,7 @@ const TopVenues = ({
                   {/* Image — consistent aspect ratio, object-cover so no overflow */}
                   <div className="w-full h-40 rounded-t-2xl overflow-hidden ">
                     <img
-                      src={venue.image}
+                      src={venue.images[0]?.url || "/placeholder-venue.jpg"}
                       alt={venue.name || "Venue image"}
                       className="w-full h-full rounded-b-3xl object-cover block"
                       // avoid layout shift: keep fixed height; use loading lazy if many cards

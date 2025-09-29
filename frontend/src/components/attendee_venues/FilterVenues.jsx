@@ -1,7 +1,12 @@
 import { ChevronUp } from "lucide-react";
 import React from "react";
 
-const FilterVenues = ({ setIsFilterOpen, cities }) => {
+const FilterVenues = ({ setIsFilterOpen, cities, setCity, city }) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsFilterOpen(false);
+  };
+
   return (
     <div className="p-4 bg-neutral-950/70 rounded-t-2xl backdrop-blur-md border-t border-neutral-800 ">
       <div
@@ -12,7 +17,7 @@ const FilterVenues = ({ setIsFilterOpen, cities }) => {
       </div>
 
       <h1 className="text-2xl  p-2 font-semibold ">Filters</h1>
-      <form className="mt-1 p-2 space-y-4 ">
+      <form onSubmit={handleSubmit} className="mt-1 p-2 space-y-4 ">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {/* City Dropdown */}
           <div>
@@ -20,7 +25,11 @@ const FilterVenues = ({ setIsFilterOpen, cities }) => {
               City
             </label>
             <div className="relative">
-              <select className="w-full bg-neutral-800 px-4 py-2 rounded-lg border border-neutral-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 text-white appearance-none transition">
+              <select
+                className="w-full bg-neutral-800 px-4 py-2 rounded-lg border border-neutral-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 text-white appearance-none transition"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              >
                 <option className="bg-neutral-800" value="">
                   Select City
                 </option>

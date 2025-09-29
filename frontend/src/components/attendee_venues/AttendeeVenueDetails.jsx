@@ -29,7 +29,7 @@ const AttendeeVenueDetails = ({
   };
 
   const imagesArr =
-    normalizeImages((selectedVenue?.img ?? fallbackImages) || []) || [];
+    normalizeImages((selectedVenue?.images ?? fallbackImages) || []) || [];
 
   const amenitiesArr = selectedVenue?.amenities ?? fallbackAmenities ?? [];
   const bookingsArr = selectedVenue?.bookings ?? fallbackBookings ?? [];
@@ -198,21 +198,6 @@ const AttendeeVenueDetails = ({
               ) : (
                 <div className="text-neutral-400">No amenities listed</div>
               )}
-            </div>
-          </div>
-
-          {/* Gallery grid */}
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold">Gallery</h3>
-            <div className="mt-3 grid grid-cols-3 gap-2">
-              {imagesArr.slice(0, 6).map((src, i) => (
-                <img
-                  key={i}
-                  src={src}
-                  alt={`gallery-${i}`}
-                  className="w-full h-24 object-cover rounded-md"
-                />
-              ))}
             </div>
           </div>
 

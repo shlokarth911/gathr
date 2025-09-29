@@ -159,6 +159,10 @@ const OwnerVenueDetails = ({
                   {selectedVenue.address}
                 </p>
               )}
+
+              <p className="text-base text-neutral-400 mt-1 mb-1">
+                {selectedVenue?.city ?? "City"}
+              </p>
               <div className="flex items-center gap-2 mt-1">
                 <Star />
                 <span className="text-sm text-neutral-300">

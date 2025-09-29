@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { Beer, Brush, Gem, Guitar, MicVocal, Music2, Wand } from "lucide-react";
 
@@ -15,11 +15,15 @@ import { AttendeeDataContext } from "../contexts/AttendeeContext";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import AttendeeVenueDetails from "../components/attendee_venues/AttendeeVenueDetails";
+import { listVenues } from "../api/venueApi";
 
 const AtendeeHome = () => {
   const { attendee } = useContext(AttendeeDataContext);
 
   const [user] = useState(attendee);
+
+  const [city, setCity] = useState(attendee?.city || "");
+  const [venues, setVenues] = useState([]);
 
   const categories = [
     {
@@ -38,29 +42,21 @@ const AtendeeHome = () => {
     },
   ];
 
-  const venues = [
-    {
-      name: "Mount View",
-      address: "Ranchi",
-      image:
-        "https://images.unsplash.com/photo-1677129663241-5be1f17fe6fe?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      price: "1000",
-    },
-    {
-      name: "Mount View",
-      address: "Ranchi",
-      image:
-        "https://images.unsplash.com/photo-1677129663241-5be1f17fe6fe?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      price: "1000",
-    },
-    {
-      name: "Mount View",
-      address: "Ranchi",
-      image:
-        "https://images.unsplash.com/photo-1677129663241-5be1f17fe6fe?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      price: "1000",
-    },
-  ];
+  useEffect(() => {
+    const fetchVenues = async () => {
+      try {
+        const response = await listVenues(city);
+        setVenues(
+          Array.isArray(response.data.venues) ? response.data.venues : []
+        );
+      } catch (error) {
+        console.error("Error fetching venues:", error);
+        setVenues([]);
+        setCity("");
+      }
+    };
+    if (city) fetchVenues();
+  }, [city]);
 
   const topCaterers = [
     {

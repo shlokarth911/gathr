@@ -12,6 +12,12 @@ const venueSchema = new Schema({
     required: true,
   },
 
+  city: {
+    type: String,
+    required: true,
+    index: true,
+  },
+
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Owner",

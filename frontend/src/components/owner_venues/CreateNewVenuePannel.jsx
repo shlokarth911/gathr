@@ -31,6 +31,7 @@ const CreateNewVenuePannel = ({ setIsCreateNewVenuePannelOpen } = {}) => {
   const [address, setAddress] = useState("");
   const [capacity, setCapacity] = useState("");
   const [price, setPrice] = useState("");
+  const [city, setCity] = useState("");
   const [description, setDescription] = useState("");
 
   const [amenities, setAmenities] = useState(DEFAULT_AMENITIES);
@@ -168,6 +169,7 @@ const CreateNewVenuePannel = ({ setIsCreateNewVenuePannelOpen } = {}) => {
         address,
         capacity,
         price,
+        city,
         description,
         amenities: selectedAmenities || [],
         images: imageObjs,
@@ -213,6 +215,20 @@ const CreateNewVenuePannel = ({ setIsCreateNewVenuePannelOpen } = {}) => {
       setIsSubmitting(false);
     }
   }
+
+  const cities = [
+    "New York",
+    "Los Angeles",
+    "Chicago",
+    "Houston",
+    "Miami",
+    "San Francisco",
+    "Seattle",
+    "Boston",
+    "Washington D.C.",
+    "Atlanta",
+    "Dallas",
+  ];
 
   return (
     <div className="p-5 max-w-4xl mx-auto">
@@ -370,10 +386,32 @@ const CreateNewVenuePannel = ({ setIsCreateNewVenuePannelOpen } = {}) => {
           </div>
         </div>
 
+        {/* Cities dropdown */}
+        <div>
+          <label className="text-base">
+            <span className="font-semibold text-lg">7.</span> City
+          </label>
+          <select
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            required
+            className="w-full mt-2 py-3 px-4 rounded-xl bg-neutral-900/40 text-white placeholder:text-neutral-400 outline-none border border-white/30"
+          >
+            <option className="bg-neutral-800" value="" disabled>
+              Select city
+            </option>
+            {cities.map((city) => (
+              <option className="bg-neutral-800" key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* Image uploader & preview */}
         <div>
           <label className="text-base">
-            <span className="font-semibold text-lg">7.</span> Upload images
+            <span className="font-semibold text-lg">8.</span> Upload images
           </label>
 
           <input

@@ -52,6 +52,7 @@ export const fetchVenueDetails = async (venueID) => {
       address: venue.address,
       img: venue.images,
       amenities: venue.amenities,
+      city: venue.city,
       status: venue.status,
       price: (venue.price ?? "").toString(),
       averageRating: venue.averageRating || 0,
@@ -65,4 +66,18 @@ export const fetchVenueDetails = async (venueID) => {
     );
     throw error;
   }
+};
+export const listVenues = async (city) => {
+  const token = localStorage.getItem("attendee_token");
+  return axios.post(
+    `${API_BASE}/venue/list`,
+    { city }, // send city in body
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    }
+  );
 };

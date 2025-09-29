@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Owner = require("../models/Owner");
 const Venue = require("../models/Venue");
+const Attendee = require("../models/Attendee");
 
 module.exports.createVenue = async (req, res) => {
   try {
@@ -13,6 +14,7 @@ module.exports.createVenue = async (req, res) => {
       price,
       description,
       images,
+      city,
       amenities,
     } = req.body;
 
@@ -21,6 +23,7 @@ module.exports.createVenue = async (req, res) => {
       address,
       owner: ownerId,
       status,
+      city,
       capacity,
       price,
       description,
@@ -152,6 +155,23 @@ module.exports.getVenueDetails = async (req, res, next) => {
     res.status(200).json({ success: true, venue });
   } catch (error) {
     console.log(`Error in venuecontroller getVenueDetails ${error}`);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+module.exports.listVenuesByCity = async (req, res) => {
+  try {
+    let city = req.body.city;
+    if (!city || city.trim() === "") {
+      if (!req.attendee || !req.attendee.city) {
+        return res
+          .status(400)
+          .json({ message: "City not specified and attendee city not found" });
+      }
+      city = req.attendee.city;
+    }
+    const venues = await Venue.find({ city });
+    res.status(200).json({ venues });
+  } catch (error) {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
