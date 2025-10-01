@@ -111,20 +111,3 @@ module.exports.logout = (req, res, next) => {
 
   res.status(200).json({ message: "Logged out Successfully" });
 };
-
-module.exports.listBookedAttendees = async (req, res) => {
-  try {
-    const ownerId = req.owner._id;
-
-    const venues = await Venue.find({ owner: ownerId });
-    const venueIds = venues.map((venue) => venue._id);
-
-    const attendees = await Attendee.find({
-      "bookings.venue": { $in: venueIds },
-    });
-    res.status(200).json({ success: true, attendees });
-  } catch (error) {
-    console.log(`Error in venuecontroller listBookedAttendees ${error}`);
-    res.status(500).json({ success: false, message: "Server error" });
-  }
-};

@@ -12,3 +12,23 @@ export const createBookingRequest = (bookingData) => {
     withCredentials: true,
   });
 };
+
+export const listBookingsForAttendee = async () => {
+  const attendeeToken = localStorage.getItem("attendee_token");
+  return axios.get(`${API_BASE}/booking/list_atendee`, {
+    headers: {
+      Authorization: `Bearer ${attendeeToken}`,
+    },
+    withCredentials: true,
+  });
+};
+
+export const listBookingsForOwner = async () => {
+  const ownerToken = localStorage.getItem("owner_token");
+  return axios.get(`${API_BASE}/booking/list_owner`, {
+    headers: {
+      Authorization: `Bearer ${ownerToken}`,
+    },
+    withCredentials: true,
+  });
+};

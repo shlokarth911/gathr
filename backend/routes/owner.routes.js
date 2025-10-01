@@ -15,7 +15,6 @@ router.post("/login", login);
 
 router.get("/profile", authOwner, getOwnerProfile);
 router.put("/profile", authOwner, updateOwnerProfile);
-router.get("/bookings", authOwner, listBookedAttendees);
 
 router.get("/logout", logout);
 

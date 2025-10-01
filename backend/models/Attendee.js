@@ -28,11 +28,12 @@ const attendeeSchema = new Schema({
     type: String,
   },
 
-  bookings: {
-    type: [Schema.Types.ObjectId],
-    ref: "Booking",
-    default: [],
-  },
+  bookings: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Booking",
+    },
+  ],
 });
 
 const attendeeModel = mongoose.model("Attendee", attendeeSchema);

@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import BookingCard from "../components/owner_bookings/BookingCard";
 import BookedAttendeePannel from "../components/owner_bookings/BookedAttendeePannel";
-import { listBookings } from "../api/ownerApi";
+import { listBookingsForOwner } from "../api/bookingApi";
 
 const OwnerBookings = () => {
   // state variables
@@ -61,15 +61,10 @@ const OwnerBookings = () => {
   // fetch bookings on mount
   useEffect(() => {
     const fetchBookings = async () => {
-      try {
-        const res = await listBookings();
-        setBookingsData(res);
-      } catch (error) {
-        console.error("Error fetching bookings:", error);
-        setBookingsData({ attendees: [] }); // fallback
-      } finally {
-        setLoading(false);
-      }
+      const res = await listBookingsForOwner();
+
+      setBookingsData(res.data);
+      setLoading(false);
     };
 
     fetchBookings();
@@ -85,7 +80,7 @@ const OwnerBookings = () => {
   }
 
   // EMPTY STATE UI
-  if (!bookingsData || bookingsData.attendees.length === 0) {
+  if (!bookingsData || bookingsData.length === 0) {
     return (
       <div className="p-4 min-h-screen">
         <h1 className="text-xl font-bold">Bookings</h1>
@@ -107,11 +102,18 @@ const OwnerBookings = () => {
       >
         <h1 className="text-xl font-bold">Bookings</h1>
         <div className="mt-4 flex gap-4 flex-col">
-          <BookingCard
-            bookings={bookingsData.attendees}
-            setMainScreen={setMainScreen}
-            setBookedAttendeePannel={setBookedAttendeePannel}
-          />
+          {bookingsData.map((data, idx) => {
+            return (
+              <BookingCard
+                onClick={() => {
+                  setMainScreen(true);
+                  setBookedAttendeePannel(true);
+                }}
+                data={data}
+                key={idx}
+              />
+            );
+          })}
         </div>
       </div>
 

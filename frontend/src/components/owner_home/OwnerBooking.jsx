@@ -5,17 +5,6 @@ import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-/**
- * Cleaner, minimal Owner Bookings section for owner dashboard home
- *
- * Props:
- *  - bookings: array of { id, guestName, guestAvatar, guestContact, venueName, date (ISO or friendly), time, guests, price, status }
- *  - limit: how many to show (default 5)
- *  - seeAllPath: route to bookings page (default "/owner/bookings")
- *  - onViewBooking: optional (id) => void
- *  - onContact: optional (booking) => void
- */
-
 gsap.registerPlugin(ScrollTrigger);
 
 const prefersReducedMotion = () =>
