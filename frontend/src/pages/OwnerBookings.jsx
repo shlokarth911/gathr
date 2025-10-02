@@ -13,11 +13,14 @@ const OwnerBookings = () => {
   const [loading, setLoading] = useState(true);
 
   // refs
-  const bookedAttendeePannelRef = useRef(null);
-  const mainScreenRef = useRef(null);
+  const bookedAttendeePannelRef = useRef();
+  const mainScreenRef = useRef();
 
   // animations for attendee panel
   useGSAP(() => {
+    // guard against missing ref to avoid "GSAP target undefined" warnings
+    if (!bookedAttendeePannelRef.current) return;
+
     if (bookedAttendeePannel) {
       gsap.to(bookedAttendeePannelRef.current, {
         y: 0,
@@ -35,6 +38,8 @@ const OwnerBookings = () => {
 
   // animations for main screen
   useGSAP(() => {
+    if (!mainScreenRef.current) return;
+
     if (mainScreen) {
       gsap.to(mainScreenRef.current, {
         scale: 0.95,

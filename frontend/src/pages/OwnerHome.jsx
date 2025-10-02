@@ -4,7 +4,7 @@ import OwnerVenues from "../components/owner_home/OwnerVenues";
 import OwnerStatistics from "../components/owner_home/OwnerStatistics";
 import OwnerBooking from "../components/owner_home/OwnerBooking";
 import { fetchOwnedVenues } from "../api/venueApi";
-import { listBookings } from "../api/ownerApi";
+import { listBookingsForOwner } from "../api/bookingApi";
 
 const OwnerHome = () => {
   const [venuesData, setVenuesData] = useState([]);
@@ -13,11 +13,12 @@ const OwnerHome = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await listBookings();
-        setBookingsData(res.attendees || []); // adjust based on actual response structure
+        const res = await listBookingsForOwner();
+
+        setBookingsData(res.data);
       } catch (error) {
-        console.error("Error fetching bookings:", error);
-        setBookingsData({ attendees: [] }); // fallback
+        console.error("Error fetching bookings for owner:", error);
+        setBookingsData([]);
       }
     };
 

@@ -21,7 +21,6 @@ function statusClass(status) {
 }
 
 function formatShortDate(dateStr) {
-  // accepts friendly or ISO; returns "Sep 18" (month short + day)
   try {
     const d = new Date(dateStr);
     return d.toLocaleString(undefined, { month: "short", day: "numeric" });
@@ -75,10 +74,10 @@ export default function OwnerBookingsSectionClean({
           </div>
         ) : (
           list.map((b) => {
-            const shortDate = formatShortDate(b.date);
+            const shortDate = formatShortDate(b.booking.date);
             return (
               <article
-                key={b.id}
+                key={b.booking._id}
                 className="obc-card flex items-center gap-3 p-3 rounded-2xl bg-neutral-800/30"
                 aria-labelledby={`booking-${b.id}-title`}
               >
@@ -92,8 +91,8 @@ export default function OwnerBookingsSectionClean({
                     />
                   ) : (
                     <span className="text-white">
-                      {b.guestName
-                        ? b.guestName
+                      {b.attendee.name
+                        ? b.attendee.name
                             .split(" ")
                             .map((s) => s[0])
                             .slice(0, 2)
@@ -111,10 +110,10 @@ export default function OwnerBookingsSectionClean({
                         id={`booking-${b.id}-title`}
                         className="text-sm font-medium text-white truncate"
                       >
-                        {b.guestName}
+                        {b.attendee.name || "Unknown User"}
                       </h3>
                       <p className="text-xs text-neutral-400 truncate mt-0.5">
-                        {b.venueName}
+                        {b.booking.event}
                       </p>
                     </div>
 
@@ -122,7 +121,7 @@ export default function OwnerBookingsSectionClean({
                     <div className="text-right min-w-[78px]">
                       <div className="text-sm font-semibold">{shortDate}</div>
                       <div className="text-xs text-neutral-400 flex items-center justify-end gap-1 mt-0.5">
-                        <Clock size={12} /> <span>{b.time}</span>
+                        <Clock size={12} /> <span>{b.booking.time}</span>
                       </div>
                     </div>
                   </div>
@@ -131,12 +130,8 @@ export default function OwnerBookingsSectionClean({
                   <div className="mt-2 flex items-center justify-between gap-3 text-xs text-neutral-300">
                     <div className="flex items-center gap-3">
                       <span className="inline-flex items-center gap-1">
-                        👥 <span>{b.guests}</span>
+                        👥 <span>{b.booking.numberOfGuests}</span>
                       </span>
-                      {/* keep this small, optional */}
-                      {/* <span className="inline-flex items-center gap-1">
-                        📅 <span>{shortDate}</span>
-                      </span> */}
                     </div>
 
                     <div className="flex items-center gap-3">
@@ -145,9 +140,11 @@ export default function OwnerBookingsSectionClean({
                           b.status
                         )} text-xs px-2 py-1 rounded-full font-medium`}
                       >
-                        {b.status}
+                        {b.booking.isConfirmed ? "Confirmed" : "Pending"}
                       </div>
-                      <div className="text-sm font-semibold">₹{b.price}</div>
+                      <div className="text-sm font-semibold">
+                        ₹{b.booking.totalPrice || "---"}
+                      </div>
                     </div>
                   </div>
                 </div>

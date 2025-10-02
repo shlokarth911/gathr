@@ -61,28 +61,8 @@ const venueSchema = new Schema({
 
   bookings: [
     {
-      attendee: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Attendee",
-        required: true,
-      },
-      date: {
-        type: Date,
-        required: true,
-      },
-      pax: {
-        type: Number,
-        required: true,
-      },
-      status: {
-        type: String,
-        enum: ["confirmed", "pending", "cancelled"],
-        default: "pending",
-      },
-      createdAt: {
-        type: Date,
-        default: Date.now,
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Booking",
     },
   ],
 });
