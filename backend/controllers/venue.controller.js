@@ -58,6 +58,7 @@ module.exports.getVenues = async (req, res) => {
 module.exports.updateVenue = async (req, res) => {
   try {
     const venueId = req.params.id;
+    const ownerId = req.owner._id;
 
     if (!mongoose.Types.ObjectId.isValid(venueId)) {
       return res
@@ -65,17 +66,8 @@ module.exports.updateVenue = async (req, res) => {
         .json({ success: false, message: "Invalid venue ID" });
     }
 
-    const ownerId = req.owner._id;
-
-    const venue = await Venue.findOne({ _id: venueId, owner: ownerId });
-
-    if (!venue) {
-      return res.status(404).json({
-        success: false,
-        message: "Venue not found or unauthorized",
-      });
-    }
-
+    // Prepare the update object by picking allowed fields from req.body
+    const updateFields = {};
     const allowedFields = [
       "name",
       "address",
@@ -84,21 +76,32 @@ module.exports.updateVenue = async (req, res) => {
       "capacity",
       "price",
       "description",
-      "images",
       "amenities",
+      "images",
     ];
 
-    allowedFields.forEach((feild) => {
-      if (req.body[feild] !== undefined) {
-        venue[feild] = req.body[feild];
+    allowedFields.forEach((field) => {
+      if (req.body[field] !== undefined) {
+        updateFields[field] = req.body[field];
       }
     });
 
-    await venue.save();
+    const updatedVenue = await Venue.findOneAndUpdate(
+      { _id: venueId, owner: ownerId },
+      { $set: updateFields },
+      { new: true, runValidators: true }
+    );
 
-    res.status(200).json({ success: true, venue });
+    if (!updatedVenue) {
+      return res.status(404).json({
+        success: false,
+        message: "Venue not found or unauthorized",
+      });
+    }
+
+    res.status(200).json({ success: true, venue: updatedVenue });
   } catch (error) {
-    console.error(error);
+    console.error("updateVenue error:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };

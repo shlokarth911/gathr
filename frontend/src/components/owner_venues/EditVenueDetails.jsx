@@ -1,19 +1,9 @@
 import { Check, Plus, X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 // Assuming updateVenueDetails exists and takes data and venueId
-// import { updateVenueDetails } from "../../api/venueApi";
+import { updateVenueDetails } from "../../api/venueApi";
 
 // Mock for updateVenueDetails for demonstration
-const updateVenueDetails = async (data, venueId) => {
-  console.log(`[API MOCK] Updating Venue ID ${venueId} with data:`, data);
-  await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate network delay
-  // Simulate API response structure
-  return {
-    success: true,
-    venue: { ...data, _id: venueId, averageRating: 4.8 },
-  };
-};
-
 const DEFAULT_AMENITIES = [
   "Accommodation",
   "Parking",
@@ -182,7 +172,6 @@ const EditVenueDetails = ({
     });
   };
 
-  // Upload utility function (kept as is)
   async function uploadSingleFileToCloudinary(file) {
     const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
     const preset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
