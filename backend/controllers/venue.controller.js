@@ -79,10 +79,11 @@ module.exports.updateVenue = async (req, res) => {
     const allowedFields = [
       "name",
       "address",
+      "city",
       "status",
       "capacity",
       "price",
-      "decription",
+      "description",
       "images",
       "amenities",
     ];

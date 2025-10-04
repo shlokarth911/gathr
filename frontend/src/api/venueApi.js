@@ -81,3 +81,24 @@ export const listVenues = async (city) => {
     }
   );
 };
+
+export const updateVenueDetails = async (venueData, venueId) => {
+  try {
+    const token = localStorage.getItem("owner_token");
+    const response = await axios.put(
+      `${API_BASE}/venue/update/${venueId}`,
+      venueData,
+      {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : undefined,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating venue details:", error);
+    throw error;
+  }
+};

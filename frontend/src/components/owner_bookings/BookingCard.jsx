@@ -1,23 +1,31 @@
 import React from "react";
 
-const BookingCard = ({ data, onClick }) => {
+const BookingCard = ({ data, onClick, setSelectedBookingData }) => {
   if (!data) return null;
 
   return (
     <div
-      className="flex items-center gap-2 bg-neutral-500/20 p-2 rounded-xl relative"
+      className="flex items-center gap-2 bg-neutral-500/20 p-4 rounded-xl relative"
       onClick={(e) => {
-        // stop parent click from closing the panel immediately
         if (e && e.stopPropagation) e.stopPropagation();
+        if (typeof setSelectedBookingData === "function")
+          setSelectedBookingData(data);
         if (typeof onClick === "function") onClick(e);
       }}
     >
       {/* Avatar */}
-      <img
-        src={data.avatar}
-        className="h-20 object-cover rounded-full border border-white/10"
-        alt=""
-      />
+      {(data.attendee?.avatar && (
+        <img
+          src={data.attendee?.avatar}
+          alt="avatar"
+          className="w-16 h-16 rounded-full object-cover"
+        />
+      )) ||
+        (data.attendee?.name && (
+          <div className="w-16 h-16 rounded-full bg-neutral-950 flex items-center justify-center text-xl font-semibold text-white">
+            {data.attendee?.name.charAt(0).toUpperCase()}
+          </div>
+        ))}
 
       <div className="h-[100%] relative">
         <h1 className="text-lg font-semibold">{data.attendee?.name}</h1>

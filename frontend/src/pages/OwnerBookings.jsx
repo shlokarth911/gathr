@@ -10,6 +10,7 @@ const OwnerBookings = () => {
   const [mainScreen, setMainScreen] = useState(false);
   const [bookedAttendeePannel, setBookedAttendeePannel] = useState(false);
   const [bookingsData, setBookingsData] = useState(null);
+  const [selectedBookingData, setSelectedBookingData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // refs
@@ -115,6 +116,7 @@ const OwnerBookings = () => {
                   setBookedAttendeePannel(true);
                 }}
                 data={data}
+                setSelectedBookingData={setSelectedBookingData}
                 key={idx}
               />
             );
@@ -129,6 +131,8 @@ const OwnerBookings = () => {
         className="fixed left-0 bottom-0 z-10 w-full"
       >
         <BookedAttendeePannel
+          selectedBookingData={selectedBookingData}
+          bookedAttendeePannel={bookedAttendeePannel}
           setMainScreen={setMainScreen}
           setBookedAttendeePannel={setBookedAttendeePannel}
         />

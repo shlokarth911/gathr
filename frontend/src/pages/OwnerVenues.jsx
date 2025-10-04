@@ -21,7 +21,6 @@ const OwnerVenues = () => {
   const [isCreateNewVenuePannelOpen, setIsCreateNewVenuePannelOpen] =
     useState(false);
 
-  // GSAP: details panel open/close
   useGSAP(() => {
     if (isOwnerVenueDetailsOpen) {
       gsap.to(ownerVenueDetailRef.current, {
@@ -51,7 +50,6 @@ const OwnerVenues = () => {
     }
   }, [isOwnerVenueDetailsOpen]);
 
-  // GSAP: create-panel open/close (keeps same cards scale animation)
   useGSAP(() => {
     if (isCreateNewVenuePannelOpen) {
       gsap.to(createNewVenuePannelRef.current, {
@@ -81,7 +79,6 @@ const OwnerVenues = () => {
     }
   }, [isCreateNewVenuePannelOpen]);
 
-  // Load all owned venues at mount
   useEffect(() => {
     const loadVenues = async () => {
       try {
@@ -97,8 +94,6 @@ const OwnerVenues = () => {
     loadVenues();
   }, []);
 
-  // When a card is clicked we set selectedVenueID.
-  // This effect watches selectedVenueID and fetches the full venue data.
   useEffect(() => {
     if (!selectedVenueID) {
       setSelectedVenueData(null);

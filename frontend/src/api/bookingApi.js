@@ -32,3 +32,38 @@ export const listBookingsForOwner = async () => {
     withCredentials: true,
   });
 };
+
+export const rejectBooking = async (bookingId) => {
+  const ownerToken = localStorage.getItem("owner_token");
+  return axios.post(
+    `${API_BASE}/booking/reject/${bookingId}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${ownerToken}`,
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    }
+  );
+};
+
+export const acceptBooking = async (bookingId) => {
+  try {
+    const ownerToken = localStorage.getItem("owner_token");
+    return axios.post(
+      `${API_BASE}/booking/accept/${bookingId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${ownerToken}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+  } catch (error) {
+    alert("Error confirming booking");
+    console.log(error);
+  }
+};
