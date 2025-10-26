@@ -58,55 +58,55 @@ const AtendeeHome = () => {
     if (city) fetchVenues();
   }, [city]);
 
-  const topCaterers = [
-    {
-      name: "Ramu Catrer",
-      image:
-        "https://plus.unsplash.com/premium_photo-1687697861242-03e99059e833?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      avgRating: 4.5,
-      price: 1200,
-    },
-    {
-      name: "Ramu Catrer",
-      image:
-        "https://plus.unsplash.com/premium_photo-1687697861242-03e99059e833?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      avgRating: 4.5,
-      price: 1200,
-    },
-    {
-      name: "Ramu Catrer",
-      image:
-        "https://plus.unsplash.com/premium_photo-1687697861242-03e99059e833?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      avgRating: 4.5,
-      price: 1200,
-    },
-  ];
+  // const topCaterers = [
+  //   {
+  //     name: "Ramu Catrer",
+  //     image:
+  //       "https://plus.unsplash.com/premium_photo-1687697861242-03e99059e833?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     avgRating: 4.5,
+  //     price: 1200,
+  //   },
+  //   {
+  //     name: "Ramu Catrer",
+  //     image:
+  //       "https://plus.unsplash.com/premium_photo-1687697861242-03e99059e833?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     avgRating: 4.5,
+  //     price: 1200,
+  //   },
+  //   {
+  //     name: "Ramu Catrer",
+  //     image:
+  //       "https://plus.unsplash.com/premium_photo-1687697861242-03e99059e833?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //     avgRating: 4.5,
+  //     price: 1200,
+  //   },
+  // ];
 
-  const topServices = [
-    {
-      name: "Live Music",
-      icon: Guitar,
-    },
-    {
-      name: "Magic Show",
-      icon: Wand,
-    },
-    {
-      name: "Tatoo Artist",
-      icon: Brush,
-    },
-    {
-      name: "Anchor",
-      icon: MicVocal,
-      price: 1200,
-    },
-  ];
+  // const topServices = [
+  //   {
+  //     name: "Live Music",
+  //     icon: Guitar,
+  //   },
+  //   {
+  //     name: "Magic Show",
+  //     icon: Wand,
+  //   },
+  //   {
+  //     name: "Tatoo Artist",
+  //     icon: Brush,
+  //   },
+  //   {
+  //     name: "Anchor",
+  //     icon: MicVocal,
+  //     price: 1200,
+  //   },
+  // ];
 
   const faqs = [
     {
-      question: "How do I book a caterer?",
+      question: "How do I book a venue?",
       answer:
-        "Simply browse top caterers, choose one, and confirm your booking in a few clicks.",
+        "Simply browse top venues, choose one, and confirm your booking in a few clicks.",
     },
     {
       question: "Are the vendors verified?",
@@ -149,32 +149,25 @@ const AtendeeHome = () => {
     <main className="bg-neutral-900 min-h-screen text-white">
       {/* Header */}
       <AttendeeHomeHeader user={user} />
-
       {/* Greetings and search bar */}
       <AttendeeGreetings />
-
       {/* Categories section */}
       <CategoriesSection categories={categories} />
-
       {/* Top Picked Venues */}
       <TopVenues
         setSelectedVenue={setSelectedVenue}
         setIsAttendeeVenueDetailsOpen={setIsAttendeeVenueDetailsOpen}
         venues={venues}
       />
-
-      {/* Caterers */}
-      <TopCaterers topCaterers={topCaterers} />
-
-      {/* Additional Services */}
+      {/* Caterers
+      <TopCaterers topCaterers={topCaterers} /> */}
+      {/* Additional Services
       <AdditionalServicesSection topServices={topServices} />
 
       {/* Reviews */}
-      <ReviewsSection />
-
+      {/* <ReviewsSection />  */}
       {/* How it works */}
       <HowItWorks />
-
       <div
         className="fixed top-0 right-0 w-full md:w-1/2 lg:w-1/3 h-full bg-neutral-800 shadow-lg z-50 transform translate-x-full"
         ref={attendeeVenueDetailsRef}
@@ -184,10 +177,8 @@ const AtendeeHome = () => {
           selectedVenue={selectedVenue}
         />
       </div>
-
       {/* FaQs */}
       <FAQSection faqs={faqs} />
-
       {/* For temporary use */}
       <div className="h-[170px] w-full"></div>
     </main>

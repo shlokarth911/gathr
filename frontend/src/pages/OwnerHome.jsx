@@ -29,7 +29,7 @@ const OwnerHome = () => {
     const fetchOwnerVenues = async () => {
       try {
         const data = await fetchOwnedVenues();
-        // if API returns { success: true, venues: [...] } or the plain array
+
         const payload = Array.isArray(data) ? data : data?.venues ?? data;
         setVenuesData(payload || []);
       } catch (error) {
@@ -44,16 +44,12 @@ const OwnerHome = () => {
     <div>
       {/* Header */}
       <OwnerHeader />
-
       {/* Your Venues */}
       <OwnerVenues venuesData={venuesData} />
-
-      {/* Statistics */}
-      <OwnerStatistics venuesData={venuesData} />
-
+      {/* 
+      <OwnerStatistics venuesData={venuesData} /> */}
       {/* Upcoming Bookings */}
       <OwnerBooking bookings={bookingsData} />
-
       {/* For temp use */}
       <div className="h-30"></div>
     </div>

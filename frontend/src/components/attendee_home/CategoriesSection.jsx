@@ -44,7 +44,9 @@ const CategoriesSection = ({ categories = [], onSelect = () => {} }) => {
   return (
     <div className="p-7 pt-3 relative">
       <div className="flex items-center justify-between pr-2">
-        <h2 className="text-lg font-semibold text-white">Categories</h2>
+        <h2 className="text-lg font-semibold text-white">
+          Available Categories
+        </h2>
 
         <Link className="text-sm underline text-neutral-300" to="/categories">
           See all

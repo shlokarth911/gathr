@@ -78,12 +78,6 @@ const OwnerProfile = () => {
     }
   }, [mainScreen]);
 
-  const stats = {
-    pending: 2,
-    confirmed: 3,
-    completed: 1,
-  };
-
   //fetch Owner profile data
   useEffect(() => {
     const loadProfileData = async () => {
@@ -117,7 +111,8 @@ const OwnerProfile = () => {
         {/* Owner Details */}
         <OwnerDetails />
         {/* Owner stats */}
-        <OwnerStats stats={stats} />
+
+        {/* <OwnerStats stats={stats} /> */}
         {/* Owner Actions */}
         <OwnerActions signOut={signOut} />
       </div>

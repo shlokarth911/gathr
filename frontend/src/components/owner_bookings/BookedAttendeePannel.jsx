@@ -1,6 +1,10 @@
 import { ChevronDown, Phone } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { acceptBooking, rejectBooking } from "../../api/bookingApi";
+import {
+  acceptBooking,
+  rejectBooking,
+  setPayableAmount,
+} from "../../api/bookingApi";
 
 const BookedAttendeePannel = ({
   setBookedAttendeePannel,
@@ -8,24 +12,26 @@ const BookedAttendeePannel = ({
   bookedAttendeePannel,
   selectedBookingData,
 }) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
+  const [amount, setAmount] = useState("");
+  amount;
 
   useEffect(() => {
     if (bookedAttendeePannel) {
-      setData(selectedBookingData);
+      setData(selectedBookingData || {});
+      setAmount(selectedBookingData?.booking?.totalAmount ?? "");
     }
   }, [selectedBookingData, bookedAttendeePannel]);
 
   const rejectBookingHandler = async () => {
     try {
-      const ownerToken = localStorage.getItem("owner_token");
-      if (!ownerToken) {
-        console.error("No owner token found in localStorage.");
+      const id = data?.booking?._id;
+      if (!id) {
+        console.error("No booking id to reject.");
         return;
       }
-
-      const response = await rejectBooking(data?.booking?._id);
-      console.log("reject response:", response.data);
+      const response = await rejectBooking(id);
+      console.log("reject response:", response?.data ?? response);
       setBookedAttendeePannel(false);
       setMainScreen(false);
     } catch (err) {
@@ -33,16 +39,18 @@ const BookedAttendeePannel = ({
     }
   };
 
-  const acceptBookingHandler = () => {
+  const acceptBookingHandler = async () => {
     try {
-      const ownerToken = localStorage.getItem("owner_token");
-      if (!ownerToken) {
-        console.error("No owner token found in localStorage.");
+      const id = data?.booking?._id;
+      if (!id) {
+        console.error("No booking id to accept.");
         return;
       }
 
-      const response = acceptBooking(data?.booking?._id);
-      console.log("accept response:", response.data);
+      const response = await acceptBooking(id);
+      console.log("accept response:", response?.data ?? response);
+
+      // update UI
       setBookedAttendeePannel(false);
       setMainScreen(false);
     } catch (error) {
@@ -50,12 +58,62 @@ const BookedAttendeePannel = ({
     }
   };
 
+  // Accept a numeric value (parsed) so no race with state updates
+  const setAmountHandler = async (value) => {
+    try {
+      const id = data?.booking?._id;
+      if (!id) {
+        console.error("No booking id to set amount for.");
+        return;
+      }
+
+      // If your backend expects a number, send a number; otherwise send string
+      const payloadAmount = typeof value === "number" ? value : Number(value);
+      if (Number.isNaN(payloadAmount)) {
+        console.error("Invalid amount:", value);
+        return;
+      }
+
+      const response = await setPayableAmount(id, payloadAmount);
+      console.log("set amount response:", response?.data ?? response);
+
+      // Update local state/UI
+      setAmount(payloadAmount);
+      setData((prev) => ({
+        ...prev,
+        booking: {
+          ...prev.booking,
+          totalAmount: payloadAmount,
+        },
+      }));
+    } catch (error) {
+      console.error("Set payable amount failed:", error?.response ?? error);
+    }
+  };
+
+  const handleSetAmountClick = async () => {
+    const raw = prompt("Enter payable amount:");
+    if (raw === null) return; // user cancelled
+    const cleaned = raw.trim().replace(/,/g, ""); // remove common commas
+    const parsed = parseFloat(cleaned);
+
+    if (Number.isNaN(parsed) || parsed < 0) {
+      alert("Please enter a valid positive number for amount.");
+      return;
+    }
+
+    // Call handler with parsed value (no reliance on immediate state updates)
+    await setAmountHandler(parsed);
+  };
+
   const date = new Date(data?.booking?.date);
-  const formattedDate = date.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
+  const formattedDate = data?.booking?.date
+    ? date.toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+      })
+    : "----";
 
   return (
     <div className=" bg-neutral-950/60 w-full p-4   rounded-t-4xl backdrop-blur-xl">
@@ -110,7 +168,7 @@ const BookedAttendeePannel = ({
         <div className="">
           <h2 className="text-sm text-neutral-300/80 ">Payable Amount</h2>
           <h1 className="text-lg font-semibold">
-            ₹{data?.booking?.totalAmount || "----"}
+            ₹{data?.booking?.totalCost ?? "----"}
           </h1>
         </div>
         <div className="">
@@ -129,12 +187,18 @@ const BookedAttendeePannel = ({
           Confirm Booking
         </button>
         <button
-          onClick={rejectBookingHandler}
-          className="w-full bg-red-600 py-2 rounded-full px-1 text-base"
+          onClick={handleSetAmountClick}
+          className=" w-full mt-2 p-2 border rounded-full border-neutral-400"
         >
-          Reject Booking
+          Set Payable Amount
         </button>
       </div>
+      <button
+        onClick={rejectBookingHandler}
+        className="p-2 px-3 mx-3 mt-3 bg-red-600  rounded-full  text-base"
+      >
+        Reject Booking
+      </button>
     </div>
   );
 };

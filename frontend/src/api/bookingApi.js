@@ -67,3 +67,23 @@ export const acceptBooking = async (bookingId) => {
     console.log(error);
   }
 };
+
+export const setPayableAmount = async (bookingId, amount) => {
+  try {
+    const ownerToken = localStorage.getItem("owner_token");
+    return axios.post(
+      `${API_BASE}/booking/set_payable_amount/${bookingId}`,
+      { amount },
+      {
+        headers: {
+          Authorization: `Bearer ${ownerToken}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+  } catch (error) {
+    alert("Error confirming booking");
+    console.log(error);
+  }
+};

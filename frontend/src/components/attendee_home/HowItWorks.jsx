@@ -7,10 +7,7 @@ import React from "react";
  * - role: 'attendee' | 'owner' | 'unified'
  * - onPrimary: fn when CTA clicked
  */
-export default function HowItWorks({
-  role = "attendee",
-  onPrimary = () => {},
-}) {
+export default function HowItWorks({ role = "attendee" }) {
   const configs = {
     attendee: {
       title: "How it works — for attendees",
@@ -85,13 +82,6 @@ export default function HowItWorks({
         </div>
 
         <div className="mt-6 flex flex-col md:flex-row items-center gap-4">
-          <button
-            onClick={onPrimary}
-            className="bg-[#43ff1d] text-black rounded-full px-6 py-3 font-semibold shadow hover:scale-[1.02] focus:outline-none"
-          >
-            {cfg.cta}
-          </button>
-
           <div className="text-xs text-neutral-400 flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="w-6 h-6 rounded-full bg-white/8 flex items-center justify-center">

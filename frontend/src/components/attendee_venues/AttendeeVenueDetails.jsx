@@ -189,7 +189,7 @@ const AttendeeVenueDetails = ({
               <div className="flex items-center gap-2 mt-1">
                 <Star />
                 <span className="text-sm text-neutral-300">
-                  {(selectedVenue?.averageRating ?? 4.8).toFixed(1)} •{" "}
+                  {(selectedVenue?.averageRating ?? 0).toFixed(1)} •{" "}
                   {reviewsArr.length} reviews
                 </span>
               </div>
@@ -219,9 +219,10 @@ const AttendeeVenueDetails = ({
             >
               Request booking
             </button>
-            <button className="w-full  py-3 rounded-full text-base border border-neutral-200 text-white font-semibold">
+
+            {/* <button className="w-full  py-3 rounded-full text-base border border-neutral-200 text-white font-semibold">
               Add to wishlist
-            </button>
+            </button> */}
           </div>
 
           {/* Amenities */}

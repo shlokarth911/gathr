@@ -22,7 +22,7 @@ const BookingCard = ({ booking, venue }) => {
               <p className="text-neutral-400">{venue.name}</p>
 
               <h2 className="mt-2 text-2xl font-semibold">
-                {booking?.totalPrice || "---"}
+                ₹{booking?.totalCost || "---"}
               </h2>
             </div>
 
@@ -45,11 +45,21 @@ const BookingCard = ({ booking, venue }) => {
           </div>
 
           <div className="flex mt-4 gap-2  justify-center w-full items-center">
-            <button className=" bg-transparent border border-neutral-400 text-white px-4 py-2 rounded-full hover:bg-neutral-700 transition-all  text-sm">
+            <button
+              onClick={() => {
+                alert("Feature under development");
+              }}
+              className=" bg-transparent border border-neutral-400 text-white px-4 py-2 rounded-full hover:bg-neutral-700 transition-all  text-sm"
+            >
               See Booking Details
             </button>
 
-            <button className=" bg-red-600 active:bg-red-700 text-white px-4 py-2 rounded-full hover:bg-red-500 transition-all text-sm">
+            <button
+              onClick={() => {
+                alert("Feature under development");
+              }}
+              className=" bg-red-600 active:bg-red-700 text-white px-4 py-2 rounded-full hover:bg-red-500 transition-all text-sm"
+            >
               Request Cancellation
             </button>
           </div>

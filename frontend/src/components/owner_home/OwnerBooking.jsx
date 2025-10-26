@@ -33,8 +33,6 @@ export default function OwnerBookingsSectionClean({
   bookings = [],
   limit = 5,
   seeAllPath = "/owner/bookings",
-  onViewBooking = null,
-  onContact = null,
 }) {
   const rootRef = useRef(null);
   const list = (bookings || []).slice(0, limit);
@@ -143,39 +141,10 @@ export default function OwnerBookingsSectionClean({
                         {b.booking.isConfirmed ? "Confirmed" : "Pending"}
                       </div>
                       <div className="text-sm font-semibold">
-                        ₹{b.booking.totalPrice || "---"}
+                        ₹{b.booking.totalCost || "---"}
                       </div>
                     </div>
                   </div>
-                </div>
-
-                {/* actions: Details + contact */}
-                <div className="flex flex-col items-end gap-2">
-                  <button
-                    onClick={() => (onViewBooking ? onViewBooking(b.id) : null)}
-                    className="text-xs text-neutral-300 underline"
-                    aria-label={`Details for booking ${b.id}`}
-                  >
-                    Details
-                  </button>
-
-                  {b.guestContact || onContact ? (
-                    <button
-                      onClick={() =>
-                        onContact
-                          ? onContact(b)
-                          : b.guestContact &&
-                            (window.location.href = `tel:${b.guestContact}`)
-                      }
-                      className="p-2 rounded-full bg-white/5"
-                      aria-label={`Contact ${b.guestName}`}
-                      title={b.guestContact ? b.guestContact : "Contact"}
-                    >
-                      <Phone size={14} />
-                    </button>
-                  ) : (
-                    <div className="w-8 h-8" />
-                  )}
                 </div>
               </article>
             );

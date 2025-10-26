@@ -135,3 +135,23 @@ module.exports.listBookingsForOwner = async (req, res) => {
     return res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+module.exports.setPayableAmount = async (req, res) => {
+  try {
+    const bookingId = req.params.id;
+    const amount = req.body.amount;
+    const booking = await Booking.findById(bookingId);
+
+    if (!booking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    booking.totalCost = amount;
+
+    await booking.save();
+    return res.status(200).json({ message: "Payable amount set", booking });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to set payable amount" });
+  }
+};
