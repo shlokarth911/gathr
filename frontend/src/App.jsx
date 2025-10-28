@@ -19,12 +19,14 @@ import OwnerVenues from "./pages/OwnerVenues";
 import OwnerProfile from "./pages/OwnerProfile";
 import AttendeeBookings from "./pages/AttendeeBookings";
 import AttendeeVenues from "./pages/AttendeeVenues";
+import LandingPage from "./pages/LandingPage";
 
 const App = () => {
   return (
     <AttendeeContext>
       <OwnerContext>
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/onboard" element={<OnBoard />} />
           <Route path="/attendee/register" element={<RegisterAttendee />} />
           <Route path="/attendee/login" element={<LoginAttendee />} />
