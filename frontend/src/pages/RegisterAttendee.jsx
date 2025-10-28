@@ -148,8 +148,8 @@ const RegisterAttendee = () => {
   ];
 
   return (
-    <div ref={rootRef} className="bg-neutral-900 h-screen text-white">
-      <div className="px-5 py-4 flex items-center justify-between">
+    <div ref={rootRef} className="bg-neutral-900 min-h-screen text-white overflow-y-auto">
+      <div className="px-4 sm:px-6 md:px-8 py-4 flex items-center justify-between max-w-7xl mx-auto">
         <Link to={"/onboard"} aria-label="Back to onboard">
           <div
             ref={arrowRef}
@@ -164,9 +164,9 @@ const RegisterAttendee = () => {
         </Link>
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0">
-        <div className="px-5 py-6">
-          <h1 ref={headerRef} className="text-3xl">
+      <div className="fixed bottom-0 left-0 right-0 md:relative md:flex md:items-center md:justify-center md:min-h-[calc(100vh-80px)] md:py-8">
+        <div className="px-4 sm:px-6 md:px-8 py-6 md:hidden">
+          <h1 ref={headerRef} className="text-3xl sm:text-4xl">
             Register as an <br /> Attendee / Host
           </h1>
 
@@ -175,46 +175,50 @@ const RegisterAttendee = () => {
 
         <div
           ref={panelRef}
-          className="bg-neutral-800 px-5 pt-9 pb-7 rounded-t-4xl"
+          className="bg-neutral-800 px-4 sm:px-6 md:px-8 pt-9 pb-7 rounded-t-4xl md:rounded-3xl md:max-w-md md:w-full md:mx-auto md:shadow-2xl"
           style={{ willChange: "transform, opacity" }}
         >
           <form onSubmit={submitHandler}>
-            <h2 className="text-xl ml-4 text-neutral-300">Name</h2>
+            <h1 ref={headerRef} className="hidden md:block text-3xl md:text-4xl mb-2 text-white">
+              Register as an <br /> Attendee / Host
+            </h1>
+            <p className="hidden md:block mb-6 text-neutral-300">Book, host or visit events</p>
+            <h2 className="text-lg sm:text-xl ml-4 text-neutral-300">Name</h2>
             <input
               ref={(el) => (inputsRef.current[0] = el)}
               type="text"
               placeholder="Enter your name"
-              className="bg-neutral-700 text-lg px-5 py-4 mt-2 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-[#1DB954]/40 transition-shadow"
+              className="bg-neutral-700 text-base sm:text-lg px-4 sm:px-5 py-3 sm:py-4 mt-2 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-[#1DB954]/40 transition-shadow"
               onChange={(e) => setName(e.target.value)}
               value={name}
             />
 
-            <h2 className="text-xl mt-6 ml-4 text-neutral-300">Email</h2>
+            <h2 className="text-lg sm:text-xl mt-6 ml-4 text-neutral-300">Email</h2>
             <input
               ref={(el) => (inputsRef.current[1] = el)}
               type="email"
               placeholder="Enter your email"
-              className="bg-neutral-700 text-lg px-5 py-4 mt-2 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-[#1DB954]/40 transition-shadow"
+              className="bg-neutral-700 text-base sm:text-lg px-4 sm:px-5 py-3 sm:py-4 mt-2 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-[#1DB954]/40 transition-shadow"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
 
-            <h2 className="text-xl mt-6 ml-4 text-neutral-300">Password</h2>
+            <h2 className="text-lg sm:text-xl mt-6 ml-4 text-neutral-300">Password</h2>
             <input
               ref={(el) => (inputsRef.current[2] = el)}
               type="password"
               placeholder="Enter a strong password"
-              className="bg-neutral-700 text-lg px-5 py-4 mt-2 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-[#1DB954]/40 transition-shadow"
+              className="bg-neutral-700 text-base sm:text-lg px-4 sm:px-5 py-3 sm:py-4 mt-2 w-full rounded-full focus:outline-none focus:ring-2 focus:ring-[#1DB954]/40 transition-shadow"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
 
-            <h2 className="text-xl mt-6 ml-4 text-neutral-300">
+            <h2 className="text-lg sm:text-xl mt-6 ml-4 text-neutral-300">
               City (Optional)
             </h2>
             <select
               ref={(el) => (inputsRef.current[3] = el)}
-              className="bg-neutral-700 text-lg px-5 py-4 mt-2 w-full rounded-full appearance-none focus:outline-none focus:ring-2 focus:ring-[#1DB954]/40 transition-shadow"
+              className="bg-neutral-700 text-base sm:text-lg px-4 sm:px-5 py-3 sm:py-4 mt-2 w-full rounded-full appearance-none focus:outline-none focus:ring-2 focus:ring-[#1DB954]/40 transition-shadow"
               onChange={(e) => setCity(e.target.value)}
               value={city}
             >
@@ -229,7 +233,7 @@ const RegisterAttendee = () => {
             <button
               ref={submitRef}
               type="submit"
-              className="w-full mt-9 text-2xl text-black py-3 rounded-full transform-gpu"
+              className="w-full mt-9 text-xl sm:text-2xl text-black py-3 sm:py-3.5 rounded-full transform-gpu"
               style={{
                 background: "linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%)",
                 willChange: "box-shadow, transform",
@@ -271,7 +275,7 @@ const RegisterAttendee = () => {
             </button>
           </form>
 
-          <p className="text-neutral-300 mt-5 text-center">
+          <p className="text-sm sm:text-base text-neutral-300 mt-5 text-center">
             To Register as Owner click{" "}
             <Link to="/owner/register">
               <span className="underline">here</span>
