@@ -133,7 +133,7 @@ const AttendeeVenues = () => {
           <Filter onClick={() => setIsFilterOpen(true)} size={22} />
         </div>
       </div>
-      <div className="fixed top-18 z-2 left-8 right-8">
+      <div className="fixed top-18 z-2 left-8 right-8 max-w-2xl mx-auto">
         <div ref={searchBarRef} className="opacity-0 items-center gap-3 mt-3 ">
           <input
             type="text"
@@ -157,7 +157,7 @@ const AttendeeVenues = () => {
         }}
         ref={mainScreenRef}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 relative p-6 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 relative p-6 max-w-7xl mx-auto">
           <h1 className="text-2xl font-semibold">Top Venues</h1>
           {venues.map((venue) => (
             <VenueCard
@@ -179,7 +179,7 @@ const AttendeeVenues = () => {
       </div>
       <div
         ref={venueFilterRef}
-        className="fixed bottom-0 left-0 z-[10] w-full transform translate-y-full"
+        className="fixed bottom-0 left-0 right-0 mx-auto max-w-7xl z-[10] w-full transform translate-y-full"
       >
         <FilterVenues
           city={city}

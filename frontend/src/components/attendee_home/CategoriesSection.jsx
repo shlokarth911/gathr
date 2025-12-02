@@ -42,7 +42,7 @@ const CategoriesSection = ({ categories = [], onSelect = () => {} }) => {
   }, [prefersReducedMotion]);
 
   return (
-    <div className="p-7 pt-3 relative">
+    <div className="p-7 pt-3 relative max-w-7xl mx-auto w-full">
       <div className="flex items-center justify-between pr-2">
         <h2 className="text-lg font-semibold text-white">
           Available Categories

@@ -79,14 +79,14 @@ const AttendeeGreetings = ({ onSearch = (q) => console.log("search:", q) }) => {
   };
 
   return (
-    <div className="p-6 pt-7" ref={rootRef}>
+    <div className="p-6 pt-7 max-w-7xl mx-auto w-full" ref={rootRef}>
       {/* Heading preserved exactly */}
-      <p className="text-2xl font-bold text-white">
+      <p className="text-2xl md:text-4xl font-bold text-white">
         Your next unforgettable <br /> event starts here.
       </p>
 
       <form onSubmit={submitHandler} action="">
-        <div className="mt-7 relative">
+        <div className="mt-7 relative max-w-2xl">
           {/* Frosted wrapper around the input (keeps original input markup) */}
           <div
             className="rounded-2xl"

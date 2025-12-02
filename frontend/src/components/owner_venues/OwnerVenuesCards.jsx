@@ -9,7 +9,10 @@ const OwnerVenuesCards = ({
   if (!Array.isArray(venuesData)) return null;
 
   return (
-    <div className="w-full flex flex-col gap-5" ref={null}>
+    <div
+      className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+      ref={null}
+    >
       {venuesData.map((venue, idx) => {
         const id = venue?._id ?? venue?.id ?? idx;
         const rating = Number(venue?.averageRating ?? 0);

@@ -57,7 +57,7 @@ export default function OwnerBookingsSectionClean({
     return () => ctx.revert();
   }, [bookings, limit]);
   return (
-    <section ref={rootRef} className="px-7 py-4">
+    <section ref={rootRef} className="px-7 py-4 max-w-5xl mx-auto w-full">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold">Recent bookings</h2>
         <Link to={seeAllPath} className="text-sm text-neutral-400">

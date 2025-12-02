@@ -105,6 +105,7 @@ const OwnerProfile = () => {
           if (editOwnerProfile) setEditOwnerProfile(false);
         }}
         ref={mainScreenRef}
+        className="max-w-5xl mx-auto w-full"
       >
         {/* Header */}
         <OwnerProfileHeader setEditOwnerProfile={setEditOwnerProfile} />
@@ -120,7 +121,7 @@ const OwnerProfile = () => {
       {/* Edit Profile Pannel */}
       <div
         ref={editOwnerProfileRef}
-        className="fixed bottom-0 z-20 w-full transform -translate-y-[-100%]"
+        className="fixed bottom-0 z-20 w-full max-w-5xl mx-auto left-0 right-0 transform -translate-y-[-100%]"
       >
         <OwnerEditProfilePannel setEditOwnerProfile={setEditOwnerProfile} />
       </div>

@@ -104,7 +104,7 @@ const OwnerBookings = () => {
       <div
         ref={mainScreenRef}
         onClick={mainScreenClickHandler}
-        className="p-4 min-h-screen"
+        className="p-4 min-h-screen max-w-5xl mx-auto w-full"
       >
         <h1 className="text-xl font-bold">Bookings</h1>
         <div className="mt-4 flex gap-4 flex-col">
@@ -128,7 +128,7 @@ const OwnerBookings = () => {
       <div
         ref={bookedAttendeePannelRef}
         style={{ transform: "translateY(100%)" }}
-        className="fixed left-0 bottom-0 z-10 w-full"
+        className="fixed left-0 right-0 mx-auto max-w-5xl bottom-0 z-10 w-full"
       >
         <BookedAttendeePannel
           selectedBookingData={selectedBookingData}

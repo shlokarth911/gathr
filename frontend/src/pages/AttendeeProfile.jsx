@@ -100,6 +100,7 @@ const AttendeeProfile = () => {
           if (editAttendeeProfile) setEditAttendeeProfile(false);
         }}
         ref={mainScreenRef}
+        className="max-w-5xl mx-auto w-full"
       >
         <ProfileHeader setEditAttendeeProfile={setEditAttendeeProfile} />
 
@@ -113,7 +114,7 @@ const AttendeeProfile = () => {
 
       <div
         ref={editAttendeeProfileRef}
-        className="fixed bottom-0 z-20 w-full transform -translate-y-[-100%]"
+        className="fixed bottom-0 z-20 w-full max-w-5xl mx-auto left-0 right-0 transform -translate-y-[-100%]"
       >
         <AttendeeEditProfilePannel
           setEditAttendeeProfile={setEditAttendeeProfile}

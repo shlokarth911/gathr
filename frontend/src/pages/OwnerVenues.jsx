@@ -142,7 +142,7 @@ const OwnerVenues = () => {
 
   return (
     <div>
-      <div className="p-6 ">
+      <div className="p-6 max-w-7xl mx-auto w-full">
         <div ref={OwnerVenueCardsRef}>
           <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold">Your Venues</h1>

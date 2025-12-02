@@ -9,7 +9,7 @@ const FAQSection = ({ faqs }) => {
   };
 
   return (
-    <div className="px-7 py-6 mt-9">
+    <div className="px-7 py-6 mt-9 max-w-4xl mx-auto w-full">
       <h2 className="text-xl font-semibold mb-4">FAQs</h2>
       <div className="flex flex-col gap-3">
         {faqs.map((faq, idx) => (

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const OwnerVenues = ({ venuesData }) => {
   return (
-    <div className="px-7 py-4">
+    <div className="px-7 py-4 max-w-7xl mx-auto w-full">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-bold">Your Venues</h1>

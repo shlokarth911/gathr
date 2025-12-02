@@ -92,7 +92,7 @@ export default function AttendeeHomeHeader({
   return (
     <header
       ref={rootRef}
-      className="p-6 flex items-center justify-between"
+      className="p-6 flex items-center justify-between max-w-7xl mx-auto w-full"
       aria-label="Attendee header"
     >
       {/* LEFT: avatar + greeting */}
